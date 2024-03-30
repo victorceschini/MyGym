@@ -33,7 +33,7 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Aluno({ setUser }){
+function Aluno({ handleNavigation }){
     const [aluno, setAluno] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
@@ -52,7 +52,7 @@ function Aluno({ setUser }){
 
     const handleReturn = async (e) => {
       e.preventDefault();
-      setUser(null);
+      handleNavigation("Home");
     };
   
     return (

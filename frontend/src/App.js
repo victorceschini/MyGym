@@ -1,23 +1,26 @@
+import React, { useState } from "react";
 import Login from "./components/Login.js";
 import Aluno from "./components/Aluno.js";
-import { useState } from 'react';
-import "react-toastify/dist/ReactToastify.css";
+import Home from "./components/Home.js";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState("Login");
+
+  const handleLoginNavigation = (userData) => {
+    setUser(userData);
+    setCurrentPage("Home");
+  };
+
+  const handleNavigation = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="App">
-      {user === null ? (
-        <header className="App-header">
-          <Login setUser={setUser} />
-        </header>
-      ) : (
-        <>
-          <Aluno setUser={setUser}/>
-        </>
-        
-      )}
+      {currentPage === "Login" && <Login handleLoginNavigation={handleLoginNavigation} />}
+      {currentPage === "Aluno" && <Aluno handleNavigation={handleNavigation} />}
+      {currentPage === "Home" && <Home handleNavigation={handleNavigation} />}
     </div>
   );
 }

@@ -2,7 +2,7 @@ import LoginStyles from '../styles/login';
 import { useState } from 'react';
 import axios from "axios";
 
-function Login({ setUser }) {
+function Login({ handleLoginNavigation }) {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -18,8 +18,8 @@ function Login({ setUser }) {
                     headers: { "Content-Type": "application/json" }
                 }
             );
-
-            setUser(response.data); // Define o usuário após a autenticação
+            
+            handleLoginNavigation(response.data); // Define o usuário após a autenticação
 
         } catch (error) {
             if (!error?.response) {
