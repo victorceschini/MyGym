@@ -4,11 +4,11 @@ import Aluno from "./components/Aluno.js";
 import Home from "./components/Home.js";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [adminId, setAdminId] = useState(null);
   const [currentPage, setCurrentPage] = useState("Login");
 
-  const handleLoginNavigation = (userData) => {
-    setUser(userData);
+  const handleLoginNavigation = (adminId) => {
+    setAdminId({ adminId });
     setCurrentPage("Home");
   };
 
@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       {currentPage === "Login" && <Login handleLoginNavigation={handleLoginNavigation} />}
-      {currentPage === "Aluno" && <Aluno handleNavigation={handleNavigation} />}
+      {currentPage === "Aluno" && <Aluno handleNavigation={handleNavigation} adminId={adminId} />}
       {currentPage === "Home" && <Home handleNavigation={handleNavigation} />}
     </div>
   );

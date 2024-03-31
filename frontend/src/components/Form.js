@@ -42,7 +42,7 @@ const Button = styled.button`
   height: 42px;
 `;
 
-const Form = ({ getAluno, onEdit, setOnEdit }) => {
+const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
     const ref = useRef();
 
     useEffect(() => {
@@ -87,6 +87,7 @@ const Form = ({ getAluno, onEdit, setOnEdit }) => {
             email: aluno.email.value,
             telefone: aluno.telefone.value,
             cpf: aluno.cpf.value,
+            administrador_id: adminId.adminId,
           })
           .then(({ data }) => toast.success(data))
           .catch(({ data }) => toast.error(data));

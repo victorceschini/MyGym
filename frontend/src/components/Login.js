@@ -19,7 +19,7 @@ function Login({ handleLoginNavigation }) {
                 }
             );
             
-            handleLoginNavigation(response.data); // Define o usuário após a autenticação
+            handleLoginNavigation(response.data.id); // Passa o id do administrador
 
         } catch (error) {
             if (!error?.response) {

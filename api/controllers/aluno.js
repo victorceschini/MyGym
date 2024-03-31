@@ -1,6 +1,6 @@
 import { db } from "../db.js";
 
-export const getAluno = (_, res) => {
+export const getAluno = (req, res) => {
     const q = "SELECT * FROM aluno";
 
     db.query(q, (err, data) => {
@@ -11,6 +11,9 @@ export const getAluno = (_, res) => {
 };
 
 export const addAluno = (req, res) => {
+    console.log("Dados recebidos do frontend:", req.body);
+    console.log("ID do administrador recebido no backend:", req.body.administrador_id);
+    
     const q = 
         "INSERT INTO aluno(`nome`, `email`, `telefone`, `cpf`, `administrador_id`, `endereco_id`, `plano_de_assinatura_id`) VALUES(?)";
     
@@ -19,7 +22,7 @@ export const addAluno = (req, res) => {
         req.body.email,
         req.body.telefone,
         req.body.cpf,
-        1,
+        req.body.administrador_id,
         1,
         1,
     ];
