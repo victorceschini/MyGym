@@ -8,13 +8,14 @@ const URL = "http://localhost:8800/aluno";
 
 const Table = styled.table`
   width: 100%;
+  margin: 20px auto;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0px 0px 5px #ccc;
   border-radius: 5px;
-  max-width: 1120px;
-  margin: 20px auto;
   word-break: break-all;
+  table-layout: fixed;
+  overflow-x: auto;
 `;
 
 export const Thead = styled.thead``;
@@ -37,6 +38,7 @@ export const Td = styled.td`
   padding-top: 15px;
   text-align: ${(props) => (props.alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
+  min-width: 100px;
 
   @media (max-width: 500px) {
     ${(props) => props.onlyWeb && "display: none"}
@@ -44,6 +46,8 @@ export const Td = styled.td`
 `;
 
 const Grid = ({ aluno, setAluno, setOnEdit }) => {
+    console.log(aluno);
+
     const handleEdit = (item) => {
         setOnEdit(item);
     };
@@ -66,10 +70,13 @@ const Grid = ({ aluno, setAluno, setOnEdit }) => {
         <Table>
             <Thead>
                 <Tr>
+                    <Th>Id</Th>
                     <Th>Nome</Th>
                     <Th>Email</Th>
                     <Th onlyWeb>Telefone</Th>
                     <Th>CPF</Th>
+                    <Th>Estado</Th>
+                    <Th>Cidade</Th>
                     <Th>Plano</Th>
                     <Th></Th>
                     <Th></Th>
@@ -78,13 +85,14 @@ const Grid = ({ aluno, setAluno, setOnEdit }) => {
             <Tbody>
                 {aluno.map((item, i) => (
                     <Tr key={i}>
-                        <Td width="25%">{item.nome}</Td>
-                        <Td width="25%">{item.email}</Td>
-                        <Td width="20%" onlyWeb>
-                            {item.telefone}
-                        </Td>
-                        <Td width="20%">{item.cpf}</Td>
-                        <Td width="8%">
+                        <Td>{item.id}</Td>
+                        <Td>{item.nome}</Td>
+                        <Td>{item.email}</Td>
+                        <Td>{item.telefone}</Td>
+                        <Td>{item.cpf}</Td>
+                        <Td>{item.estado}</Td>
+                        <Td>{item.cidade}</Td>
+                        <Td>
                             {item.planoAssinaturaAtivo === 1 ? "SIM" : "NÃO"}
                         </Td>
                         <Td alignCenter width="5%">

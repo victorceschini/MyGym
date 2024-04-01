@@ -42,7 +42,7 @@ const Button = styled.button`
   height: 42px;
 `;
 
-const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
+const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
     const ref = useRef();
 
     useEffect(() => {
@@ -53,6 +53,11 @@ const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
         aluno.email.value = onEdit.email;
         aluno.telefone.value = onEdit.telefone;
         aluno.cpf.value = onEdit.cpf;
+        aluno.estado.value = onEdit.estado;
+        aluno.cidade.value = onEdit.cidade;
+        aluno.cep.value = onEdit.cep;
+        aluno.bairro.value = onEdit.bairro;
+        aluno.logradouro.value = onEdit.logradouro;
       }
     }, [onEdit]);
 
@@ -65,7 +70,12 @@ const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
         !aluno.nome.value ||
         !aluno.email.value ||
         !aluno.telefone.value ||
-        !aluno.cpf.value
+        !aluno.cpf.value ||
+        !aluno.estado.value ||
+        !aluno.cidade.value ||
+        !aluno.cep.value ||
+        !aluno.bairro.value ||
+        !aluno.logradouro.value
       ) {
         return toast.warn("Preencha todos os campos!");
       }
@@ -77,6 +87,11 @@ const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
             email: aluno.email.value,
             telefone: aluno.telefone.value,
             cpf: aluno.cpf.value,
+            estado: aluno.estado.value,
+            cidade: aluno.cidade.value,
+            cep: aluno.cep.value,
+            bairro: aluno.bairro.value,
+            logradouro: aluno.logradouro.value,
           })
           .then(({ data }) => toast.success(data))
           .catch(({ data }) => toast.error(data));
@@ -87,7 +102,12 @@ const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
             email: aluno.email.value,
             telefone: aluno.telefone.value,
             cpf: aluno.cpf.value,
-            administrador_id: adminId.adminId,
+            estado: aluno.estado.value,
+            cidade: aluno.cidade.value,
+            cep: aluno.cep.value,
+            bairro: aluno.bairro.value,
+            logradouro: aluno.logradouro.value,
+            administrador_id: admin.admin.id,
           })
           .then(({ data }) => toast.success(data))
           .catch(({ data }) => toast.error(data));
@@ -97,6 +117,11 @@ const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
       aluno.email.value = "";
       aluno.telefone.value = "";
       aluno.cpf.value = "";
+      aluno.estado.value = "";
+      aluno.cidade.value = "";
+      aluno.cep.value = "";
+      aluno.bairro.value = "";
+      aluno.logradouro.value = "";
 
       setOnEdit(null);
       getAluno();
@@ -121,8 +146,30 @@ const Form = ({ getAluno, onEdit, setOnEdit, adminId }) => {
                 <Input name="cpf" />
             </InputArea>
 
+            <InputArea>
+                <Label >Estado</Label>
+                <Input name="estado" />
+            </InputArea>
+            <InputArea>
+                <Label >Cidade</Label>
+                <Input name="cidade" />
+            </InputArea>
+            <InputArea>
+                <Label >CEP</Label>
+                <Input name="cep" />
+            </InputArea>
+            <InputArea>
+                <Label >Bairro</Label>
+                <Input name="bairro" />
+            </InputArea>
+            <InputArea>
+                <Label >Logradouro</Label>
+                <Input name="logradouro" />
+            </InputArea>
+
             <Button type="submit">SALVAR</Button>
         </FormContainer>
+        
     );
 };
 

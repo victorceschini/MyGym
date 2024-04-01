@@ -33,14 +33,14 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Aluno({ handleNavigation, adminId }){
+function Aluno({ handleNavigation, admin }){
     const [aluno, setAluno] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
     const getAluno = async () => {
       try {
         const res = await axios.get(URL);
-        setAluno(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)));
+        setAluno(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
       } catch (error) {
         toast.error(error);
       }
@@ -62,7 +62,7 @@ function Aluno({ handleNavigation, adminId }){
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
-          <Form onEdit={onEdit} setOnEdit={setOnEdit} getAluno={getAluno} adminId={adminId} />
+          <Form onEdit={onEdit} setOnEdit={setOnEdit} getAluno={getAluno} admin={admin} />
           <Grid setOnEdit={setOnEdit} aluno={aluno} setAluno={setAluno} />
           
         </Container>

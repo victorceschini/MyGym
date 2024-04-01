@@ -19,7 +19,7 @@ function Login({ handleLoginNavigation }) {
                 }
             );
             
-            handleLoginNavigation(response.data.id); // Passa o id do administrador
+            handleLoginNavigation(response.data);
 
         } catch (error) {
             if (!error?.response) {
