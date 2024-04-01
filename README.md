@@ -51,3 +51,6 @@ yarn start
 cd frontend
 yarn start
 ```
+# Banco de Dados
+
+Botei o script SQL que estou usando como "mydb" no repositorio tambem, entao basta ir em File e Open SQL Script e executar esse arquivo
