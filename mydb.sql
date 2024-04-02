@@ -184,7 +184,9 @@ CREATE TABLE exercicio (
   equipamento_id int NOT NULL,
   PRIMARY KEY (id),
   KEY fk_exercicio_equipamento1_idx (equipamento_id),
-  CONSTRAINT fk_exercicio_equipamento1 FOREIGN KEY (equipamento_id) REFERENCES equipamento (id)
+  KEY fk_exercicio_rotina_de_exercicios1_idx (rotina_de_exercicios_id),
+  CONSTRAINT fk_exercicio_equipamento1 FOREIGN KEY (equipamento_id) REFERENCES equipamento (id),
+  CONSTRAINT fk_exercicio_rotina_de_exercicios1_idx FOREIGN KEY (rotina_de_exercicios_id) REFERENCES rotina_de_exercicios (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
