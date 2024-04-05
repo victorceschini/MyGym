@@ -94,7 +94,13 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
             logradouro: aluno.logradouro.value,
           })
           .then(({ data }) => toast.success(data))
-          .catch(({ data }) => toast.error(data));
+          .catch((error) => {
+            if (error.response.status === 400) {
+                toast.error(error.response.data.error);
+            } else {
+                toast.error("Erro ao tentar atualizar o aluno.");
+            }
+        });
       } else {
         await axios
           .post(URL, {
@@ -110,7 +116,13 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
             administrador_id: admin.admin.id,
           })
           .then(({ data }) => toast.success(data))
-          .catch(({ data }) => toast.error(data));
+          .catch((error) => {
+            if (error.response.status === 400) {
+                toast.error(error.response.data.error);
+            } else {
+                toast.error("Erro ao tentar registrar o aluno.");
+            }
+        });
       }
 
       aluno.nome.value = "";

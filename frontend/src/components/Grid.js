@@ -46,8 +46,6 @@ export const Td = styled.td`
 `;
 
 const Grid = ({ aluno, setAluno, setOnEdit }) => {
-    console.log(aluno);
-
     const handleEdit = (item) => {
         setOnEdit(item);
     };

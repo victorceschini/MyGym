@@ -1,119 +1,90 @@
-import { db } from "../db.js";
+import { Aluno } from "../classes/Aluno.js";
+import { Endereco } from "../classes/Endereco.js";
 
-export const getAluno = (req, res) => {
-    const q = 
-        "SELECT aluno.*, endereco.estado, endereco.cidade, endereco.cep, endereco.bairro, endereco.logradouro FROM aluno INNER JOIN endereco ON aluno.endereco_id=endereco.id";
-
-    db.query(q, (err, data) => {
-        if (err) return res.json(err);
-
-        return res.status(200).json(data);
-    });
+export const getAluno = async (_req, res) => {
+    try {
+        const alunos = await Aluno.getAllAluno();
+        return res.status(200).json(alunos);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
 };
 
-export const addAluno = (req, res) => {
-    const q_endereco =
-        "INSERT INTO endereco(`estado`, `cidade`, `cep`, `bairro`, `logradouro`) VALUES(?)";
+export const addAluno = async (req, res) => {
+    try {
+        const { nome, email, telefone, cpf, administrador_id, estado, cidade, cep, bairro, logradouro } = req.body;
 
-    const values_endereco = [
-        req.body.estado,
-        req.body.cidade,
-        req.body.cep,
-        req.body.bairro,
-        req.body.logradouro,
-    ]
+        const endereco = new Endereco(null, estado, cidade, cep, bairro, logradouro);
+        const endereco_id = await endereco.save();
 
-    db.query(q_endereco, [values_endereco], (err, results) => {
-        if (err) return res.json(err);
-
-        const endereco_id = results.insertId;
-
-        const q_aluno = 
-            "INSERT INTO aluno(`nome`, `email`, `telefone`, `cpf`, `administrador_id`, `endereco_id`, `plano_de_assinatura_id`) VALUES(?)";
-    
-        const values_aluno = [
-            req.body.nome,
-            req.body.email,
-            req.body.telefone,
-            req.body.cpf,
-            req.body.administrador_id,
-            endereco_id,
-            1,
-        ];
-
-        db.query(q_aluno, [values_aluno], (err) => {
-            if (err) return res.json(err);
-
-            return res.status(200).json("Aluno criado com sucesso!");
-        });
-    });
-};
-
-export const updateAluno = (req, res) => {
-    const q_aluno = 
-        "UPDATE aluno SET `nome` = ?, `email` = ?, `telefone` = ?, `cpf` = ? WHERE `id` = ?";
-
-    const values_aluno = [
-        req.body.nome,
-        req.body.email,
-        req.body.telefone,
-        req.body.cpf,
-    ];
-  
-    db.query(q_aluno, [...values_aluno, req.params.id], (err) => {
-        if (err) return res.json(err);
-
-        const q_enderecoID = 
-            "SELECT endereco_id FROM aluno WHERE `id` = ?";
-
-        db.query(q_enderecoID, [req.params.id], (err, results) => {
-            if (err) return res.json(err);
-            
-            const endereco_id = results[0].endereco_id;
-
-            const q_endereco =
-                "UPDATE endereco SET `estado` = ?, `cidade` = ?, `cep`= ?, `bairro` = ?, `logradouro` = ? WHERE `id` = ?";
-
-            const values_endereco = [
-                req.body.estado,
-                req.body.cidade,
-                req.body.cep,
-                req.body.bairro,
-                req.body.logradouro,
-            ]
-
-            db.query(q_endereco, [...values_endereco, endereco_id], (err) => {
-                if (err) return res.json(err);
-
-                return res.status(200).json("Aluno atualizado com sucesso!");
-            });
-        });
-    });
-};
-
-export const deleteAluno = (req, res) => {
-
-    const q_enderecoID = 
-        "SELECT endereco_id FROM aluno WHERE `id` = ?";
-
-    db.query(q_enderecoID, [req.params.id], (err, results) => {
-        if (err) return res.json(err);
+        const aluno = new Aluno(null, nome, email, telefone, cpf, administrador_id, endereco_id, 1);
+        await aluno.save();
         
-        const endereco_id = results[0].endereco_id;
+        return res.status(200).json("Aluno criado com sucesso!");
+    } catch (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ error: "CPF já registrado para outro aluno." });
+        }
+        return res.status(500).json({ error: err.message });
+    }
+};
 
-        const q_aluno = "DELETE FROM aluno WHERE `id` = ?";
+export const updateAluno = async (req, res) => {
+    try {
+        const { cpf, nome, email, telefone, estado, cidade, cep, bairro, logradouro } = req.body;
 
-        db.query(q_aluno, [req.params.id], (err) => {
-            if(err) return res.json(err);
+        const aluno = await Aluno.getObjectAluno(cpf, null);
 
-            const q_endereco =
-                "DELETE FROM endereco WHERE `id` = ?";
+        if (!aluno) {
+            return res.status(404).json({ error: "Aluno não encontrado." });
+        }
 
-            db.query(q_endereco, [endereco_id], (err) => {
-                if (err) return res.json(err);
+        aluno.nome = nome;
+        aluno.email = email;
+        aluno.telefone = telefone;
+        aluno.cpf = cpf;
+        
+        const endereco = await Endereco.getObjectEndereco(aluno.endereco_id)
 
-                return res.status(200).json("Aluno deletado com sucesso!");
-            });
-        });
-    });
+        if (!endereco) {
+            return res.status(404).json({ error: "Endereço não encontrado." });
+        }
+
+        endereco.estado = estado;
+        endereco.cidade = cidade;
+        endereco.cep = cep;
+        endereco.bairro = bairro;
+        endereco.logradouro = logradouro;
+
+        await aluno.update(aluno.id);
+        await endereco.update(endereco.id);
+        
+        return res.status(200).json("Aluno atualizado com sucesso!");
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
+export const deleteAluno = async (req, res) => {
+    try {
+        const aluno_id = req.params.id;
+        
+        const aluno = await Aluno.getObjectAluno(null, aluno_id);
+
+        if (!aluno) {
+            return res.status(404).json({ error: "Aluno não encontrado." });
+        }
+        
+        const endereco = await Endereco.getObjectEndereco(aluno.endereco_id);
+        if (!endereco) {
+            return res.status(404).json({ error: "Endereço não encontrado." });
+        }
+
+        await aluno.delete(aluno.id);
+        await endereco.delete(endereco.id);
+        
+        return res.status(200).json("Aluno deletado com sucesso!");
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
 };
