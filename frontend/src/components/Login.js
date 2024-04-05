@@ -1,12 +1,13 @@
 import LoginStyles from '../styles/login';
+import logo from '../styles/logo.png';
 import { useState } from 'react';
+import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
 function Login({ handleLoginNavigation }) {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,15 +24,18 @@ function Login({ handleLoginNavigation }) {
 
         } catch (error) {
             if (!error?.response) {
-                setError("Erro ao entrar no sistema");
+                toast.error("Erro ao entrar no sistema");
             } else if (error.response.status === 401) {
-                setError("Usuário e/ou senha inválidos");
+                toast.error("Usuário e/ou senha inválidos");
             }
         }
     };
 
     return (
       <div className="login-form-wrap">
+        <div className="logo-container">
+        <img src={logo} alt="Logo" className="logo" />
+        </div>
         <div>
             <h2>Login</h2>
             <form className="login-form">
@@ -49,9 +53,9 @@ function Login({ handleLoginNavigation }) {
                     className="btn-login"
                     onClick={(e) => handleLogin(e)}>Entrar</button>
             </form>
-            <p>{error}</p>
         </div>
         <LoginStyles />
+        <ToastContainer autoClose={3000} position={"bottom-left"} />
       </div>
     )
 }

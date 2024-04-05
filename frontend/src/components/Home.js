@@ -1,14 +1,40 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "../styles/logo.png";
+import LoginStyles from '../styles/login';
 
 const Container = styled.div`
+  background-color: #9f9da7; /* Cor de fundo cinza */
+  height: 100vh; /* Altura total da viewport */
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 50px;
+`;
+
+const ContentContainer = styled.div`
+  background-color: #fff; /* Cor de fundo branco */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Sombra */
+  display: flex;
+  flex-direction: column; /* Ajuste para alinhar os elementos verticalmente */
+  align-items: center; /* Centralizar os elementos horizontalmente */
+`;
+
+const Logo = styled.img`
+  width: 200px;
+  height: auto;
+  margin-bottom: 30px;
 `;
 
 const Title = styled.h2`
+  margin-bottom: 60px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 30px;
 `;
 
@@ -18,13 +44,13 @@ const Button = styled.button`
   font-size: 18px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #e8491d; /* Cor vermelha */
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #bf3913; /* Cor vermelha mais escura */
   }
 `;
 
@@ -33,7 +59,7 @@ const LogoutButton = styled.button`
   top: 20px;
   left: 10px;
   padding: 10px;
-  background-color: #3ca9e2;
+  background-color: #bf3913; /* Cor vermelha */
   color: white;
   border: none;
   border-radius: 5px;
@@ -48,17 +74,28 @@ const Home = ({ handleNavigation }) => {
       };
 
     return (
+      <>
+        <LoginStyles />
         <Container>
-        <LogoutButton type="button" onClick={(e) => handleLogout(e)}>
-            Logout
-        </LogoutButton>
-        <Title>Bem-vindo à Página Inicial</Title>
-        <Button onClick={() => handleNavigation("Aluno")}>Alunos</Button>
-        <Button onClick={() => handleNavigation("Plano")}>Planos</Button>
-        <Button onClick={() => handleNavigation("Rotina")}>Rotinas</Button>
-        <Button onClick={() => handleNavigation("Avaliacao")}>Avaliação</Button>
-        <Button onClick={() => handleNavigation("Professor")}>Professores</Button>        
+          <ContentContainer>
+            <LogoutButton type="button" onClick={(e) => handleLogout(e)}>
+              Logout
+            </LogoutButton>
+            <Logo src={logo} alt="Logo da academia" />
+            <Title>Bem-vindo</Title>
+            <ButtonGroup>
+              <Button onClick={() => handleNavigation("Aluno")}>Alunos</Button>
+              <Button onClick={() => handleNavigation("Plano")}>Planos</Button>
+              <Button onClick={() => handleNavigation("Frequencia")}>Frequência</Button>
+            </ButtonGroup>
+            <ButtonGroup>
+              <Button onClick={() => handleNavigation("Professor")}>Professores</Button>
+              <Button onClick={() => handleNavigation("Aulas")}>Aulas</Button>
+              <Button onClick={() => handleNavigation("Equipamentos")}>Equipamentos</Button>
+            </ButtonGroup>
+          </ContentContainer>
         </Container>
+      </>
     );
 };
 
