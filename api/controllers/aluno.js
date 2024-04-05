@@ -33,7 +33,9 @@ export const updateAluno = async (req, res) => {
     try {
         const { cpf, nome, email, telefone, estado, cidade, cep, bairro, logradouro } = req.body;
 
-        const aluno = await Aluno.getObjectAluno(cpf, null);
+        const aluno_id = req.params.id;
+
+        const aluno = await Aluno.getObjectAluno(null, aluno_id);
 
         if (!aluno) {
             return res.status(404).json({ error: "Aluno não encontrado." });

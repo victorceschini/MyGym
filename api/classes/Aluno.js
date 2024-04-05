@@ -51,7 +51,8 @@ export class Aluno {
     async save() {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO aluno (`nome`, `email`, `telefone`, `cpf`, `administrador_id`, `endereco_id`, `plano_de_assinatura_id`, `planoAssinaturaAtivo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
+            // Definindo planoAssinaturaAtivo com base em plano_de_assinatura_id
             const planoAssinaturaAtivo = this.plano_de_assinatura_id ? 1 : 0;
 
             const values = [this.nome, this.email, this.telefone, this.cpf, this.administrador_id, this.endereco_id, this.plano_de_assinatura_id, planoAssinaturaAtivo];
@@ -65,8 +66,12 @@ export class Aluno {
 
     async update(id) {
         return new Promise((resolve, reject) => {
-            const query = "UPDATE aluno SET `nome` = ?, `email` = ?, `telefone` = ?, `cpf` = ?, `administrador_id` = ?, `endereco_id` = ?, `plano_de_assinatura_id` = ? WHERE `id` = ?";
-            const values = [this.nome, this.email, this.telefone, this.cpf, this.administrador_id, this.endereco_id, this.plano_de_assinatura_id, id];
+            const query = "UPDATE aluno SET `nome` = ?, `email` = ?, `telefone` = ?, `cpf` = ?, `administrador_id` = ?, `endereco_id` = ?, `plano_de_assinatura_id` = ?, `planoAssinaturaAtivo` = ? WHERE `id` = ?";
+            
+            // Definindo planoAssinaturaAtivo com base em plano_de_assinatura_id
+            const planoAssinaturaAtivo = this.plano_de_assinatura_id ? 1 : 0;
+
+            const values = [this.nome, this.email, this.telefone, this.cpf, this.administrador_id, this.endereco_id, this.plano_de_assinatura_id, planoAssinaturaAtivo, id];
             db.query(query, values, (err, results) => {
                 if (err) return reject(err);
                 resolve();

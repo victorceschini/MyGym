@@ -4,6 +4,14 @@
 - MySQL Workbench
 - Yarn
 
+# MySQL Workbench
+
+no main, tem o script para criar o schema, após executar e criar esse schema, execute o seguinte código:
+
+```
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'awspass123';
+```
+
 # Instalação Backend
 ```
 cd api

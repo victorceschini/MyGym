@@ -44,6 +44,16 @@ const LoginStyles = createGlobalStyle`
     box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.2);
   }
   
+  .logo-container {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .logo {
+    max-width: 150px;
+    height: auto;
+  }
+
   .login-form {
     padding: 0 60px;
   }
