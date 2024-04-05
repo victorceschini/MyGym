@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Login from "./components/Login.js";
-import Aluno from "./components/Aluno.js";
 import Home from "./components/Home.js";
+import Aluno from "./components/Aluno.js";
+import Plano from "./components/Plano.js";
 
 function App() {
   const [admin, setAdmin] = useState(null);
@@ -19,8 +20,9 @@ function App() {
   return (
     <div className="App">
       {currentPage === "Login" && <Login handleLoginNavigation={handleLoginNavigation} />}
-      {currentPage === "Aluno" && <Aluno handleNavigation={handleNavigation} admin={admin} />}
       {currentPage === "Home" && <Home handleNavigation={handleNavigation} />}
+      {currentPage === "Aluno" && <Aluno handleNavigation={handleNavigation} admin={admin} />}
+      {currentPage === "Plano" && <Plano handleNavigation={handleNavigation}/>}
     </div>
   );
 }

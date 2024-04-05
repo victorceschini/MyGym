@@ -24,6 +24,18 @@ export class Aluno {
         });
     }
 
+    static async getAlunoByPlano(plano_id) {
+        return new Promise((resolve, reject) => {
+            const query = "SELECT * FROM aluno WHERE plano_de_assinatura_id = ?";
+            db.query(query, [plano_id], (err, results) => {
+                if (err) return reject(err);
+                if (results.length === 0) return resolve(null);
+                const alunoData = results[0];
+                resolve(new Aluno(alunoData.id, alunoData.nome, alunoData.email, alunoData.telefone, alunoData.cpf, alunoData.administrador_id, alunoData.endereco_id, alunoData.plano_de_assinatura_id));
+            });
+        });
+    }
+
     static async getAllAluno() {
         return new Promise((resolve, reject) => {
             const q = 
@@ -38,8 +50,11 @@ export class Aluno {
 
     async save() {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO aluno (`nome`, `email`, `telefone`, `cpf`, `administrador_id`, `endereco_id`, `plano_de_assinatura_id`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            const values = [this.nome, this.email, this.telefone, this.cpf, this.administrador_id, this.endereco_id, this.plano_de_assinatura_id];
+            const query = "INSERT INTO aluno (`nome`, `email`, `telefone`, `cpf`, `administrador_id`, `endereco_id`, `plano_de_assinatura_id`, `planoAssinaturaAtivo`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            const planoAssinaturaAtivo = this.plano_de_assinatura_id ? 1 : 0;
+
+            const values = [this.nome, this.email, this.telefone, this.cpf, this.administrador_id, this.endereco_id, this.plano_de_assinatura_id, planoAssinaturaAtivo];
             db.query(query, values, (err, results) => {
                 if (err) return reject(err);
                 this.id = results.insertId;

@@ -69,7 +69,6 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
       if (
         !aluno.nome.value ||
         !aluno.email.value ||
-        !aluno.telefone.value ||
         !aluno.cpf.value ||
         !aluno.estado.value ||
         !aluno.cidade.value ||
@@ -181,7 +180,6 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
 
             <Button type="submit">SALVAR</Button>
         </FormContainer>
-        
     );
 };
 

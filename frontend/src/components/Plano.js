@@ -1,13 +1,13 @@
 import GlobalStyle from "../styles/global";
 import styled from "styled-components";
-import Form from "./alunoLayout/Form.js";
-import Grid from "./alunoLayout/Grid.js";
+import Form from "./planoLayout/Form.js";
+import Grid from "./planoLayout/Grid.js";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const URL = "http://localhost:8800/aluno";
+const URL = "http://localhost:8800/plano";
 
 const Container = styled.div`
   width: 100%;
@@ -33,22 +33,22 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Aluno({ handleNavigation, admin }){
-    const [aluno, setAluno] = useState([]);
+function Plano({ handleNavigation }){
+    const [plano, setPlano] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
-    const getAluno = async () => {
+    const getPlano = async () => {
       try {
         const res = await axios.get(URL);
-        setAluno(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
+        setPlano(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
       } catch (error) {
         toast.error(error);
       }
     };
   
     useEffect(() => {
-      getAluno();
-    }, [setAluno]);
+      getPlano();
+    }, [setPlano]);
 
     const handleReturn = async (e) => {
       e.preventDefault();
@@ -58,12 +58,12 @@ function Aluno({ handleNavigation, admin }){
     return (
       <>
         <Container>
-          <Title>ALUNOS</Title>
+          <Title>PLANOS</Title>
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
-          <Form onEdit={onEdit} setOnEdit={setOnEdit} getAluno={getAluno} admin={admin} />
-          <Grid setOnEdit={setOnEdit} aluno={aluno} setAluno={setAluno} />
+          <Form onEdit={onEdit} setOnEdit={setOnEdit} getPlano={getPlano} />
+          <Grid setOnEdit={setOnEdit} plano={plano} setPlano={setPlano} />
           
         </Container>
         
@@ -73,4 +73,4 @@ function Aluno({ handleNavigation, admin }){
     );
   }
 
-  export default Aluno;
+  export default Plano;
