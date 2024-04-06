@@ -34,6 +34,8 @@ const Label = styled.label``;
 
 const Button = styled.button`
   padding: 10px;
+  margin: auto;
+  margin-top: 10px;
   cursor: pointer;
   border-radius: 5px;
   border: none;
@@ -51,6 +53,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
 
         aluno.nome.value = onEdit.nome;
         aluno.email.value = onEdit.email;
+        aluno.senha.value = onEdit.senha;
         aluno.telefone.value = onEdit.telefone;
         aluno.cpf.value = onEdit.cpf;
         aluno.estado.value = onEdit.estado;
@@ -69,6 +72,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
       if (
         !aluno.nome.value ||
         !aluno.email.value ||
+        !aluno.senha.value ||
         !aluno.cpf.value ||
         !aluno.estado.value ||
         !aluno.cidade.value ||
@@ -84,6 +88,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
           .put(URL + onEdit.id, {
             nome: aluno.nome.value,
             email: aluno.email.value,
+            senha: aluno.senha.value,
             telefone: aluno.telefone.value,
             cpf: aluno.cpf.value,
             estado: aluno.estado.value,
@@ -105,6 +110,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
           .post(URL, {
             nome: aluno.nome.value,
             email: aluno.email.value,
+            senha: aluno.senha.value,
             telefone: aluno.telefone.value,
             cpf: aluno.cpf.value,
             estado: aluno.estado.value,
@@ -126,6 +132,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
 
       aluno.nome.value = "";
       aluno.email.value = "";
+      aluno.senha.value = "";
       aluno.telefone.value = "";
       aluno.cpf.value = "";
       aluno.estado.value = "";
@@ -145,16 +152,20 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
                 <Input name="nome" />
             </InputArea>
             <InputArea>
-                <Label >E-mail</Label>
-                <Input name="email" type="email" />
+                <Label >CPF</Label>
+                <Input name="cpf" />
             </InputArea>
             <InputArea>
                 <Label >Telefone</Label>
                 <Input name="telefone" />
             </InputArea>
             <InputArea>
-                <Label >CPF</Label>
-                <Input name="cpf" />
+                <Label >E-mail</Label>
+                <Input name="email" type="email" />
+            </InputArea>
+            <InputArea>
+                <Label >Senha</Label>
+                <Input name="senha" />
             </InputArea>
 
             <InputArea>

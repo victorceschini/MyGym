@@ -40,7 +40,7 @@ function Frequencia({ handleNavigation }){
     const getFrequencia = async () => {
       try {
         const res = await axios.get(URL);
-        setFrequencia(res.data.sort((a, b) => (a.nome_aluno > b.nome_aluno ? 1 : -1)));
+        setFrequencia(res.data.sort((a, b) => (a.checkOut > b.checkOut ? 1 : -1)));
       } catch (error) {
         toast.error(error);
       }

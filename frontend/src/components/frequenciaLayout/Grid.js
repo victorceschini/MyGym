@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { FaTrash, FaCheckCircle } from "react-icons/fa";
@@ -45,7 +45,35 @@ export const Td = styled.td`
   }
 `;
 
+const Button = styled.button`
+  padding: 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-left: 55px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: #e8491d;
+  color: white;
+  height: 42px;
+`;
+
+const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
+    if (!isOpen) return null;
+  
+    return (
+      <div>
+        <div>Tem certeza que deseja excluir?</div>
+        <Button onClick={onConfirm}>Sim</Button>
+        <Button onClick={onCancel}>Não</Button>
+      </div>
+    );
+  };
+
 const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
+
     const handleCheckOut = async (id) => {
         await axios
           .put(URL + id, {
@@ -61,19 +89,30 @@ const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
         });
     };
 
-    const handleDelete = async (id) => {
+    const handleDeleteClick = (id) => {
+        setConfirmDelete(true);
+        setDeleteId(id);
+      };
+
+    const handleDeleteConfirm = async () => {
         await axios
-            .delete(URL + id)
-            .then(({ data }) => {
-                const newArray = frequencia.filter((frequencia) => frequencia.id !== id);
-
-                setFrequencia(newArray);
-                toast.success(data);
-            })
-            .catch(({ data }) => toast.error(data));
-
+          .delete(URL + deleteId)
+          .then(({ data }) => {
+            const newArray = frequencia.filter((frequencia) => frequencia.id !== deleteId);
+            setFrequencia(newArray);
+            toast.success(data);
+          })
+          .catch(({ data }) => toast.error(data));
+    
         setOnEdit(null);
+        setConfirmDelete(false);
+        setDeleteId(null);
     };
+
+    const handleDeleteCancel = () => {
+        setConfirmDelete(false);
+        setDeleteId(null);
+      };
 
     const formatarData = (data) => {
         const dataObj = new Date(data).toLocaleString('pt-Br');
@@ -81,6 +120,12 @@ const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
     }
 
     return (
+      <>
+        <ConfirmationModal
+          isOpen={confirmDelete}
+          onCancel={handleDeleteCancel}
+          onConfirm={handleDeleteConfirm}
+        />
         <Table>
             <Thead>
                 <Tr>
@@ -107,12 +152,13 @@ const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
                             <FaCheckCircle onClick={() => handleCheckOut(item.id)} />
                         </Td>
                         <Td alignCenter width="5%">
-                            <FaTrash onClick={() => handleDelete(item.id)} />
+                            <FaTrash onClick={() => handleDeleteClick(item.id)} />
                         </Td>
                     </Tr>
                 ))}
             </Tbody>
         </Table>
+      </>
     );
 };
 
