@@ -12,7 +12,6 @@ export class Avaliacao {
         antebraco,
         altura,
         massa,
-        imc,
         data,
         professor_id
     ) {
@@ -26,9 +25,13 @@ export class Avaliacao {
         this.antebraco = antebraco;
         this.altura = altura;
         this.massa = massa;
-        this.imc = imc;
+        this.imc = this.calcularIMC(altura, massa);
         this.data = data;
         this.professor_id = professor_id;
+    }
+
+    calcularIMC(altura, massa) {
+        return massa / altura ** 2;
     }
 
     static async getObjectAvaliacao(id) {
@@ -50,7 +53,6 @@ export class Avaliacao {
                         avaliacaoData.antebraco,
                         avaliacaoData.altura,
                         avaliacaoData.massa,
-                        avaliacaoData.imc,
                         avaliacaoData.data,
                         avaliacaoData.professor_id
                     )
@@ -78,7 +80,6 @@ export class Avaliacao {
                         avaliacaoData.antebraco,
                         avaliacaoData.altura,
                         avaliacaoData.massa,
-                        avaliacaoData.imc,
                         avaliacaoData.data,
                         avaliacaoData.professor_id
                     )
@@ -106,7 +107,6 @@ export class Avaliacao {
                         avaliacaoData.antebraco,
                         avaliacaoData.altura,
                         avaliacaoData.massa,
-                        avaliacaoData.imc,
                         avaliacaoData.data,
                         avaliacaoData.professor_id
                     )
