@@ -110,7 +110,7 @@ export const updateAvaliacao = async (req, res) => {
 
         const avaliacao_id = req.params.id;
 
-        const avaliacao = await Avaliacao.getObjectAvaliacao(avalicao_id);
+        const avaliacao = await Avaliacao.getObjectAvaliacao(avaliacao_id);
 
         if (!avaliacao) {
             return res.status(404).json({ error: "Avaliação não encontrada." });
