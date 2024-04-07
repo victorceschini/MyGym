@@ -33,7 +33,7 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Aluno({ handleNavigation, admin }){
+function Aluno({ handleNavigation, user, userType }){
     const [aluno, setAluno] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
@@ -62,8 +62,8 @@ function Aluno({ handleNavigation, admin }){
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
-          <Form onEdit={onEdit} setOnEdit={setOnEdit} getAluno={getAluno} admin={admin} />
-          <Grid setOnEdit={setOnEdit} aluno={aluno} setAluno={setAluno} />
+          <Form onEdit={onEdit} setOnEdit={setOnEdit} getAluno={getAluno} user={user} userType={userType} />
+          <Grid setOnEdit={setOnEdit} aluno={aluno} setAluno={setAluno} user={user} userType={userType} />
           
         </Container>
         

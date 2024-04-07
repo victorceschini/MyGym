@@ -42,7 +42,7 @@ const Button = styled.button`
   height: 42px;
 `;
 
-const Form = ({ getFrequencia, onEdit, setOnEdit}) => {
+const Form = ({ getFrequencia, onEdit, setOnEdit }) => {
     const ref = useRef();
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const Form = ({ getFrequencia, onEdit, setOnEdit}) => {
       ) {
         return toast.warn("Preencha todos os campos!");
       }
-      /*
+      /* Frequencia não é editável
       if (onEdit) {
         await axios
           .put(URL + onEdit.id, {
@@ -77,7 +77,8 @@ const Form = ({ getFrequencia, onEdit, setOnEdit}) => {
                 toast.error("Erro ao tentar atualizar a frequência.");
             }
         });
-      } */else {
+      } */ 
+      else {
         await axios
           .post(URL, {
             cpf: frequencia.cpf.value,

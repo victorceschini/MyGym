@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../styles/logo.png";
-import LoginStyles from '../styles/login';
+import logo from "../../styles/logo.png";
+import LoginStyles from '../../styles/login';
 
 const Container = styled.div`
   background-color: #9f9da7; /* Cor de fundo cinza */
@@ -66,7 +66,7 @@ const LogoutButton = styled.button`
   cursor: pointer;
 `;
 
-const Home = ({ handleNavigation }) => {
+const HomeAluno = ({ handleNavigation }) => {
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -89,9 +89,8 @@ const Home = ({ handleNavigation }) => {
               <Button onClick={() => handleNavigation("Frequencia")}>Frequência</Button>
             </ButtonGroup>
             <ButtonGroup>
-              <Button onClick={() => handleNavigation("Professor")}>Professores</Button>
+              <Button onClick={() => handleNavigation("RotinaExercicios")}>Rotina</Button>
               <Button onClick={() => handleNavigation("Aulas")}>Aulas</Button>
-              <Button onClick={() => handleNavigation("Equipamentos")}>Equipamentos</Button>
             </ButtonGroup>
           </ContentContainer>
         </Container>
@@ -99,4 +98,4 @@ const Home = ({ handleNavigation }) => {
     );
 };
 
-export default Home;
+export default HomeAluno;

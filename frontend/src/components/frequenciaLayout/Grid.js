@@ -70,7 +70,7 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
     );
   };
 
-const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
+const Grid = ({ frequencia, setFrequencia, setOnEdit, user, userType }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
@@ -95,29 +95,34 @@ const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
       };
 
     const handleDeleteConfirm = async () => {
-        await axios
-          .delete(URL + deleteId)
-          .then(({ data }) => {
-            const newArray = frequencia.filter((frequencia) => frequencia.id !== deleteId);
-            setFrequencia(newArray);
-            toast.success(data);
-          })
-          .catch(({ data }) => toast.error(data));
-    
-        setOnEdit(null);
-        setConfirmDelete(false);
-        setDeleteId(null);
+      if (userType !== "admin") {
+        return toast.error("Não tem permissão para excluir uma frequência.");
+      }
+      await axios
+        .delete(URL + deleteId)
+        .then(({ data }) => {
+          const newArray = frequencia.filter((frequencia) => frequencia.id !== deleteId);
+          setFrequencia(newArray);
+          toast.success(data);
+        })
+        .catch(({ data }) => toast.error(data));
+  
+      setOnEdit(null);
+      setConfirmDelete(false);
+      setDeleteId(null);
     };
 
     const handleDeleteCancel = () => {
-        setConfirmDelete(false);
-        setDeleteId(null);
-      };
+      setConfirmDelete(false);
+      setDeleteId(null);
+    };
 
     const formatarData = (data) => {
-        const dataObj = new Date(data).toLocaleString('pt-Br');
-        return dataObj;
+      const dataObj = new Date(data).toLocaleString('pt-Br');
+      return dataObj;
     }
+
+    const filteredFrequencia = userType === "aluno" ? frequencia.filter((item) => item.cpf === user.aluno.cpf) : frequencia;
 
     return (
       <>
@@ -139,7 +144,7 @@ const Grid = ({ frequencia, setFrequencia, setOnEdit }) => {
                 </Tr>
             </Thead>
             <Tbody>
-                {frequencia.map((item, i) => (
+                {filteredFrequencia.map((item, i) => (
                     <Tr key={i}>
                         <Td>{item.id}</Td>
                         <Td>{item.nome_aluno}</Td>

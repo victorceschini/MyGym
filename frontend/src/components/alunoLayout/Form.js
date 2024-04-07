@@ -44,7 +44,7 @@ const Button = styled.button`
   height: 42px;
 `;
 
-const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
+const Form = ({ getAluno, onEdit, setOnEdit, user, userType }) => {
     const ref = useRef();
 
     useEffect(() => {
@@ -106,6 +106,10 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
             }
         });
       } else {
+        if (userType !== "admin") {
+          return toast.error("Não tem permissão para criar alunos.");
+        }
+
         await axios
           .post(URL, {
             nome: aluno.nome.value,
@@ -118,7 +122,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, admin }) => {
             cep: aluno.cep.value,
             bairro: aluno.bairro.value,
             logradouro: aluno.logradouro.value,
-            administrador_id: admin.admin.id,
+            administrador_id: user.admin.id,
           })
           .then(({ data }) => toast.success(data))
           .catch((error) => {

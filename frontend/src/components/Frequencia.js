@@ -33,7 +33,7 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Frequencia({ handleNavigation }){
+function Frequencia({ handleNavigation, user, userType }){
     const [frequencia, setFrequencia] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
@@ -62,8 +62,10 @@ function Frequencia({ handleNavigation }){
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
-          <Form onEdit={onEdit} setOnEdit={setOnEdit} getFrequencia={getFrequencia} />
-          <Grid setOnEdit={setOnEdit} frequencia={frequencia} setFrequencia={setFrequencia} />
+          {userType !== "aluno" && (
+            <Form onEdit={onEdit} setOnEdit={setOnEdit} getFrequencia={getFrequencia} />
+          )}
+          <Grid setOnEdit={setOnEdit} frequencia={frequencia} setFrequencia={setFrequencia} user={user} userType={userType} />
         </Container>
         
         <ToastContainer autoClose={3000} position={"bottom-left"} />

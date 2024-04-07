@@ -70,11 +70,14 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
     );
   };
 
-const Grid = ({ plano, setPlano, setOnEdit }) => {
+const Grid = ({ plano, setPlano, setOnEdit, user, userType }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
     const handleEdit = (item) => {
+      if (userType !== "admin") {
+        return toast.error("Não tem permissão para editar um plano.");
+      }
         setOnEdit(item);
     };
 
@@ -84,6 +87,9 @@ const Grid = ({ plano, setPlano, setOnEdit }) => {
       };
 
     const handleDeleteConfirm = async () => {
+      if (userType !== "admin") {
+        return toast.error("Não tem permissão para excluir um plano.");
+      }
         await axios
           .delete(URL + deleteId)
           .then(({ data }) => {
@@ -102,6 +108,8 @@ const Grid = ({ plano, setPlano, setOnEdit }) => {
         setConfirmDelete(false);
         setDeleteId(null);
       };
+
+    const filteredPlano = userType === "aluno" ? plano.filter((item) => item.cpf === user.aluno.cpf) : plano;
 
     return (
       <>
@@ -124,7 +132,7 @@ const Grid = ({ plano, setPlano, setOnEdit }) => {
                 </Tr>
             </Thead>
             <Tbody>
-                {plano.map((item, i) => (
+                {filteredPlano.map((item, i) => (
                     <Tr key={i}>
                         <Td>{item.id}</Td>
                         <Td>{item.nome_aluno}</Td>

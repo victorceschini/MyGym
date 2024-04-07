@@ -74,7 +74,7 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
   );
 };
 
-const Grid = ({ aluno, setAluno, setOnEdit }) => {
+const Grid = ({ aluno, setAluno, setOnEdit, user, userType }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -88,6 +88,10 @@ const Grid = ({ aluno, setAluno, setOnEdit }) => {
   };
 
   const handleDeleteConfirm = async () => {
+    if (userType !== "admin") {
+      return toast.error("Não tem permissão para excluir alunos.");
+    }
+
     await axios
       .delete(URL + deleteId)
       .then(({ data }) => {
@@ -107,6 +111,8 @@ const Grid = ({ aluno, setAluno, setOnEdit }) => {
     setDeleteId(null);
   };
 
+  // Filtrando apenas o aluno logado, se for do tipo "aluno"
+  const filteredAluno = userType === "aluno" ? aluno.filter((item) => item.id === user.aluno.id) : aluno;
   return (
     <>
       <ConfirmationModal
@@ -131,7 +137,7 @@ const Grid = ({ aluno, setAluno, setOnEdit }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {aluno.map((item, i) => (
+          {filteredAluno.map((item, i) => (
             <Tr key={i}>
               <Td>{item.id}</Td>
               <Td>{item.nome}</Td>
