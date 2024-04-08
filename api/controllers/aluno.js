@@ -12,12 +12,12 @@ export const getAluno = async (_req, res) => {
 
 export const addAluno = async (req, res) => {
     try {
-        const { nome, email, telefone, cpf, administrador_id, estado, cidade, cep, bairro, logradouro } = req.body;
+        const { nome, email, senha, telefone, cpf, administrador_id, estado, cidade, cep, bairro, logradouro } = req.body;
 
         const endereco = new Endereco(null, estado, cidade, cep, bairro, logradouro);
         const endereco_id = await endereco.save();
 
-        const aluno = new Aluno(null, nome, email, telefone, cpf, administrador_id, endereco_id, 1);
+        const aluno = new Aluno(null, nome, email, senha, telefone, cpf, administrador_id, endereco_id, 1);
         await aluno.save();
         
         return res.status(200).json("Aluno criado com sucesso!");
@@ -31,7 +31,7 @@ export const addAluno = async (req, res) => {
 
 export const updateAluno = async (req, res) => {
     try {
-        const { cpf, nome, email, telefone, estado, cidade, cep, bairro, logradouro } = req.body;
+        const { cpf, nome, email, senha, telefone, estado, cidade, cep, bairro, logradouro } = req.body;
 
         const aluno_id = req.params.id;
 
@@ -43,6 +43,7 @@ export const updateAluno = async (req, res) => {
 
         aluno.nome = nome;
         aluno.email = email;
+        aluno.senha = senha;
         aluno.telefone = telefone;
         aluno.cpf = cpf;
         

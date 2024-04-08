@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
-function Login({ handleLoginNavigation }) {
+function Login({ handleLoginNavigation, handleAlunoLoginNavigation }) {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -20,7 +20,12 @@ function Login({ handleLoginNavigation }) {
                 }
             );
             
-            handleLoginNavigation(response.data);
+            const userType = response.data.userType;
+            if (userType === "admin") {
+                handleLoginNavigation(response.data.user);
+            } else if (userType === "aluno") {
+                handleAlunoLoginNavigation(response.data.user); // Função para navegação de aluno
+            }
 
         } catch (error) {
             if (!error?.response) {

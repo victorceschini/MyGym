@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 
-const URL = "http://localhost:8800/aluno";
+const URL = "http://localhost:8800/professor";
 
 const FormContainer = styled.form`
   display: flex;
@@ -25,17 +25,21 @@ const InputArea = styled.div`
 const Input = styled.input`
   width: 120px;
   padding: 0 10px;
+  margin-left: 10px;
   border: 1px solid #bbb;
   border-radius: 5px;
   height: 40px;
 `;
 
-const Label = styled.label``;
+const Label = styled.label`
+  margin-left: 10px;
+`;
 
 const Button = styled.button`
   padding: 10px;
   margin: auto;
-  margin-top: 10px;
+  margin-right: 160px;
+  margin-top: 20px;
   cursor: pointer;
   border-radius: 5px;
   border: none;
@@ -44,41 +48,43 @@ const Button = styled.button`
   height: 42px;
 `;
 
-const Form = ({ getAluno, onEdit, setOnEdit, user, userType }) => {
+const Form = ({ getProfessor, onEdit, setOnEdit, user, userType }) => {
     const ref = useRef();
 
     useEffect(() => {
       if (onEdit) {
-        const aluno = ref.current;
+        const professor = ref.current;
 
-        aluno.nome.value = onEdit.nome;
-        aluno.email.value = onEdit.email;
-        aluno.senha.value = onEdit.senha;
-        aluno.telefone.value = onEdit.telefone;
-        aluno.cpf.value = onEdit.cpf;
-        aluno.estado.value = onEdit.estado;
-        aluno.cidade.value = onEdit.cidade;
-        aluno.cep.value = onEdit.cep;
-        aluno.bairro.value = onEdit.bairro;
-        aluno.logradouro.value = onEdit.logradouro;
+        professor.nome.value = onEdit.nome;
+        professor.email.value = onEdit.email;
+        professor.senha.value = onEdit.senha;
+        professor.telefone.value = onEdit.telefone;
+        professor.cpf.value = onEdit.cpf;
+        professor.formacao.value = onEdit.formacao;
+        professor.estado.value = onEdit.estado;
+        professor.cidade.value = onEdit.cidade;
+        professor.cep.value = onEdit.cep;
+        professor.bairro.value = onEdit.bairro;
+        professor.logradouro.value = onEdit.logradouro;
       }
     }, [onEdit]);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const aluno = ref.current
+      const professor = ref.current
 
       if (
-        !aluno.nome.value ||
-        !aluno.email.value ||
-        !aluno.senha.value ||
-        !aluno.cpf.value ||
-        !aluno.estado.value ||
-        !aluno.cidade.value ||
-        !aluno.cep.value ||
-        !aluno.bairro.value ||
-        !aluno.logradouro.value
+        !professor.nome.value ||
+        !professor.email.value ||
+        !professor.senha.value ||
+        !professor.cpf.value ||
+        !professor.formacao.value ||
+        !professor.estado.value ||
+        !professor.cidade.value ||
+        !professor.cep.value ||
+        !professor.bairro.value ||
+        !professor.logradouro.value
       ) {
         return toast.warn("Preencha todos os campos!");
       }
@@ -86,67 +92,69 @@ const Form = ({ getAluno, onEdit, setOnEdit, user, userType }) => {
       if (onEdit) {
         await axios
           .put(URL + onEdit.id, {
-            nome: aluno.nome.value,
-            email: aluno.email.value,
-            senha: aluno.senha.value,
-            telefone: aluno.telefone.value,
-            cpf: aluno.cpf.value,
-            estado: aluno.estado.value,
-            cidade: aluno.cidade.value,
-            cep: aluno.cep.value,
-            bairro: aluno.bairro.value,
-            logradouro: aluno.logradouro.value,
+            nome: professor.nome.value,
+            email: professor.email.value,
+            senha: professor.senha.value,
+            telefone: professor.telefone.value,
+            cpf: professor.cpf.value,
+            formacaoAcademica: professor.formacao.value,
+            estado: professor.estado.value,
+            cidade: professor.cidade.value,
+            cep: professor.cep.value,
+            bairro: professor.bairro.value,
+            logradouro: professor.logradouro.value,
           })
           .then(({ data }) => toast.success(data))
           .catch((error) => {
             if (error.response.status === 400) {
                 toast.error(error.response.data.error);
             } else {
-                toast.error("Erro ao tentar atualizar o aluno.");
+                toast.error("Erro ao tentar atualizar o professor.");
             }
         });
       } else {
         if (userType !== "admin") {
-          return toast.error("Não tem permissão para criar alunos.");
+          return toast.error("Não tem permissão para criar professores.");
         }
 
         await axios
           .post(URL, {
-            nome: aluno.nome.value,
-            email: aluno.email.value,
-            senha: aluno.senha.value,
-            telefone: aluno.telefone.value,
-            cpf: aluno.cpf.value,
-            estado: aluno.estado.value,
-            cidade: aluno.cidade.value,
-            cep: aluno.cep.value,
-            bairro: aluno.bairro.value,
-            logradouro: aluno.logradouro.value,
-            administrador_id: user.admin.id,
+            nome: professor.nome.value,
+            email: professor.email.value,
+            senha: professor.senha.value,
+            telefone: professor.telefone.value,
+            cpf: professor.cpf.value,
+            formacaoAcademica: professor.formacao.value,
+            estado: professor.estado.value,
+            cidade: professor.cidade.value,
+            cep: professor.cep.value,
+            bairro: professor.bairro.value,
+            logradouro: professor.logradouro.value,
           })
           .then(({ data }) => toast.success(data))
           .catch((error) => {
             if (error.response.status === 400) {
                 toast.error(error.response.data.error);
             } else {
-                toast.error("Erro ao tentar registrar o aluno.");
+                toast.error("Erro ao tentar registrar o professor.");
             }
         });
       }
 
-      aluno.nome.value = "";
-      aluno.email.value = "";
-      aluno.senha.value = "";
-      aluno.telefone.value = "";
-      aluno.cpf.value = "";
-      aluno.estado.value = "";
-      aluno.cidade.value = "";
-      aluno.cep.value = "";
-      aluno.bairro.value = "";
-      aluno.logradouro.value = "";
+      professor.nome.value = "";
+      professor.email.value = "";
+      professor.senha.value = "";
+      professor.telefone.value = "";
+      professor.cpf.value = "";
+      professor.formacao.value = "";
+      professor.estado.value = "";
+      professor.cidade.value = "";
+      professor.cep.value = "";
+      professor.bairro.value = "";
+      professor.logradouro.value = "";
 
       setOnEdit(null);
-      getAluno();
+      getProfessor();
     };
 
     return (
@@ -154,6 +162,10 @@ const Form = ({ getAluno, onEdit, setOnEdit, user, userType }) => {
             <InputArea>
                 <Label >Nome</Label>
                 <Input name="nome" />
+            </InputArea>
+            <InputArea>
+                <Label >Formação</Label>
+                <Input name="formacao" />
             </InputArea>
             <InputArea>
                 <Label >CPF</Label>
@@ -171,6 +183,7 @@ const Form = ({ getAluno, onEdit, setOnEdit, user, userType }) => {
                 <Label >Senha</Label>
                 <Input name="senha" />
             </InputArea>
+            
 
             <InputArea>
                 <Label >Estado</Label>

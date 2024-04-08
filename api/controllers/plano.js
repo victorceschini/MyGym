@@ -20,12 +20,29 @@ export const addPlano = async (req, res) => {
             return res.status(404).json({ error: "Aluno não encontrado." });
         }
 
-        const plano = new Plano(null, nome, valor, descricao);
-        await plano.save();
+        // Caso haja um plano associado, excluir ele.
+        if (aluno.plano_de_assinatura_id) {
+            const plano_associado = await Plano.getObjectPlano(aluno.plano_de_assinatura_id);
+            
+            const plano = new Plano(null, nome, valor, descricao);
+            await plano.save();
 
-        // Associa o plano ao aluno
-        aluno.plano_de_assinatura_id = plano.id;
-        await aluno.update(aluno.id);
+            // Associa o plano ao aluno
+            aluno.plano_de_assinatura_id = plano.id;
+            await aluno.update(aluno.id);
+
+            // Exclusão do plano anterior associado
+            await plano_associado.delete(plano_associado.id);
+        } else {
+            const plano = new Plano(null, nome, valor, descricao);
+            await plano.save();
+
+            // Associa o plano ao aluno
+            aluno.plano_de_assinatura_id = plano.id;
+            await aluno.update(aluno.id);
+        }
+
+        
         
         return res.status(200).json("Plano criado e associado ao aluno com sucesso!");
     } catch (err) {
@@ -76,7 +93,7 @@ export const deletePlano = async (req, res) => {
         }
 
         aluno.plano_de_assinatura_id = null;
-        aluno.update(aluno.id);
+        await aluno.update(aluno.id);
 
         await plano.delete(plano.id);
         

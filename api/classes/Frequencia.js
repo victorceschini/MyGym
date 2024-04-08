@@ -45,7 +45,17 @@ export class Frequencia {
             });
         });
     }
-    
+
+    static async getTotalFrequencias(alunoId) {
+        return new Promise((resolve, reject) => {
+            const query = "SELECT COUNT(*) AS total FROM frequencia WHERE aluno_id = ? AND checkIn = 1 AND checkOut = 1";
+            db.query(query, [alunoId], (err, results) => {
+                if (err) return reject(err);
+                if (results.length === 0) return resolve(0); // Se nenhum registro for encontrado, retorna 0
+                resolve(results[0].total); // Retorna o total de frequências encontradas
+            });
+        });
+    }
 
     async save() {
         return new Promise((resolve, reject) => {

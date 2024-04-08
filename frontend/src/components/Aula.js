@@ -1,13 +1,13 @@
 import GlobalStyle from "../styles/global";
 import styled from "styled-components";
-import Form from "./frequenciaLayout/Form.js";
-import Grid from "./frequenciaLayout/Grid.js";
+import Form from "./aulaLayout/Form.js";
+import Grid from "./aulaLayout/Grid.js";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const URL = "http://localhost:8800/frequencia";
+const URL = "http://localhost:8800/aula";
 
 const Container = styled.div`
   width: 100%;
@@ -33,22 +33,22 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Frequencia({ handleNavigation, user, userType }){
-    const [frequencia, setFrequencia] = useState([]);
+function Aula({ handleNavigation, user, userType }){
+    const [aula, setAula] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
-    const getFrequencia = async () => {
+    const getAula = async () => {
       try {
         const res = await axios.get(URL);
-        setFrequencia(res.data.sort((a, b) => (a.checkOut > b.checkOut ? 1 : -1)));
+        setAula(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
       } catch (error) {
         toast.error(error);
       }
     };
   
     useEffect(() => {
-      getFrequencia();
-    }, [setFrequencia]);
+      getAula();
+    }, [setAula]);
 
     const handleReturn = async (e) => {
       e.preventDefault();
@@ -63,14 +63,16 @@ function Frequencia({ handleNavigation, user, userType }){
     return (
       <>
         <Container>
-          <Title>FREQUENCIAS</Title>
+          <Title>AULAS</Title>
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
           {userType !== "aluno" && (
-            <Form onEdit={onEdit} setOnEdit={setOnEdit} getFrequencia={getFrequencia} />
+            <Form onEdit={onEdit} setOnEdit={setOnEdit} getAula={getAula} user={user} />
           )}
-          <Grid setOnEdit={setOnEdit} frequencia={frequencia} setFrequencia={setFrequencia} user={user} userType={userType} />
+          
+          <Grid setOnEdit={setOnEdit} aula={aula} setAula={setAula} user={user} userType={userType} />
+          
         </Container>
         
         <ToastContainer autoClose={3000} position={"bottom-left"} />
@@ -79,4 +81,4 @@ function Frequencia({ handleNavigation, user, userType }){
     );
   }
 
-  export default Frequencia;
+  export default Aula;

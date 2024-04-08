@@ -33,7 +33,7 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Plano({ handleNavigation }){
+function Plano({ handleNavigation, user, userType }){
     const [plano, setPlano] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
@@ -52,7 +52,12 @@ function Plano({ handleNavigation }){
 
     const handleReturn = async (e) => {
       e.preventDefault();
-      handleNavigation("Home");
+      if(userType === "admin")
+      {
+        handleNavigation("Home");
+      } else if(userType === "aluno"){
+        handleNavigation("HomeAluno");
+      }
     };
   
     return (
@@ -62,8 +67,11 @@ function Plano({ handleNavigation }){
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
-          <Form onEdit={onEdit} setOnEdit={setOnEdit} getPlano={getPlano} />
-          <Grid setOnEdit={setOnEdit} plano={plano} setPlano={setPlano} />
+          {userType !== "aluno" && (
+            <Form onEdit={onEdit} setOnEdit={setOnEdit} getPlano={getPlano} />
+          )}
+          
+          <Grid setOnEdit={setOnEdit} plano={plano} setPlano={setPlano} user={user} userType={userType} />
           
         </Container>
         
