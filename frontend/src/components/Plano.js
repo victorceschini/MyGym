@@ -52,7 +52,12 @@ function Plano({ handleNavigation, user, userType }){
 
     const handleReturn = async (e) => {
       e.preventDefault();
-      handleNavigation("Home");
+      if(userType === "admin")
+      {
+        handleNavigation("Home");
+      } else if(userType === "aluno"){
+        handleNavigation("HomeAluno");
+      }
     };
   
     return (

@@ -93,7 +93,7 @@ export const deletePlano = async (req, res) => {
         }
 
         aluno.plano_de_assinatura_id = null;
-        aluno.update(aluno.id);
+        await aluno.update(aluno.id);
 
         await plano.delete(plano.id);
         

@@ -66,11 +66,11 @@ const LogoutButton = styled.button`
   cursor: pointer;
 `;
 
-const Home = ({ handleNavigation }) => {
+const Home = ({ handleNavigation, handleReset }) => {
 
     const handleLogout = async (e) => {
         e.preventDefault();
-        handleNavigation("Login");
+        handleReset();
       };
 
     return (
@@ -90,8 +90,8 @@ const Home = ({ handleNavigation }) => {
             </ButtonGroup>
             <ButtonGroup>
               <Button onClick={() => handleNavigation("Professor")}>Professores</Button>
-              <Button onClick={() => handleNavigation("Aulas")}>Aulas</Button>
-              <Button onClick={() => handleNavigation("Equipamentos")}>Equipamentos</Button>
+              <Button onClick={() => handleNavigation("Aula")}>Aulas</Button>
+              <Button onClick={() => handleNavigation("Equipamento")}>Equipamentos</Button>
             </ButtonGroup>
           </ContentContainer>
         </Container>

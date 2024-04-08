@@ -89,8 +89,8 @@ const HomeAluno = ({ handleNavigation }) => {
               <Button onClick={() => handleNavigation("Frequencia")}>Frequência</Button>
             </ButtonGroup>
             <ButtonGroup>
-              <Button onClick={() => handleNavigation("RotinaExercicios")}>Rotina</Button>
-              <Button onClick={() => handleNavigation("Aulas")}>Aulas</Button>
+              <Button onClick={() => handleNavigation("RotinaExercicio")}>Rotina</Button>
+              <Button onClick={() => handleNavigation("Aula")}>Aulas</Button>
             </ButtonGroup>
           </ContentContainer>
         </Container>

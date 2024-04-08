@@ -4,6 +4,8 @@ import Home from "./components/Home/Home.js";
 import Aluno from "./components/Aluno.js";
 import Plano from "./components/Plano.js";
 import Frequencia from "./components/Frequencia.js";
+import Aula from "./components/Aula.js";
+import Professor from "./components/Professor.js";
 import HomeAluno from "./components/Home/HomeAluno.js";
 
 function App() {
@@ -27,16 +29,24 @@ function App() {
     setCurrentPage(page);
   };
 
+  const handleReset = () => {
+    setUser(null);
+    setUserType(null);
+    setCurrentPage("Login");
+  }
+
   return (
     <div className="App">
       {currentPage === "Login" && <Login handleLoginNavigation={handleLoginNavigation} 
                                          handleAlunoLoginNavigation={handleAlunoLoginNavigation} />}
-      {currentPage === "Home" && <Home handleNavigation={handleNavigation} />}
+      {currentPage === "Home" && <Home handleNavigation={handleNavigation} handleReset={handleReset} />}
       {currentPage === "Aluno" && <Aluno handleNavigation={handleNavigation} user={user} userType={userType} />}
       {currentPage === "Plano" && <Plano handleNavigation={handleNavigation} user={user} userType={userType} />}
       {currentPage === "Frequencia" && <Frequencia handleNavigation={handleNavigation} user={user} userType={userType} />}
+      {currentPage === "Aula" && <Aula handleNavigation={handleNavigation} user={user} userType={userType} />}
+      {currentPage === "Professor" && <Professor handleNavigation={handleNavigation} user={user} userType={userType} />}
 
-      {currentPage === "HomeAluno" && <HomeAluno handleNavigation={handleNavigation} />}
+      {currentPage === "HomeAluno" && <HomeAluno handleNavigation={handleNavigation} handleReset={handleReset} />}
     </div>
   );
 }

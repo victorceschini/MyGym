@@ -82,14 +82,15 @@ const Grid = ({ plano, setPlano, setOnEdit, user, userType }) => {
     };
 
     const handleDeleteClick = (id) => {
-        setConfirmDelete(true);
-        setDeleteId(id);
-      };
-
-    const handleDeleteConfirm = async () => {
       if (userType !== "admin") {
         return toast.error("Não tem permissão para excluir um plano.");
       }
+        
+      setConfirmDelete(true);
+      setDeleteId(id);
+    };
+
+    const handleDeleteConfirm = async () => {
         await axios
           .delete(URL + deleteId)
           .then(({ data }) => {

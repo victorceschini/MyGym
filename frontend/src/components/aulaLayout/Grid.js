@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { FaTrash, FaCheckCircle } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const URL = "http://localhost:8800/frequencia";
+const URL = "http://localhost:8800/aula";
 
 const Table = styled.table`
   width: 100%;
@@ -70,60 +70,44 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
     );
   };
 
-const Grid = ({ frequencia, setFrequencia, setOnEdit, user, userType }) => {
+const Grid = ({ aula, setAula, setOnEdit, user, userType }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
-    const handleCheckOut = async (id) => {
-        await axios
-          .put(URL + id, {
-            id: id,
-          })
-          .then(({ data }) => toast.success(data))
-          .catch((error) => {
-            if (error.response.status === 400) {
-                toast.error(error.response.data.error);
-            } else {
-                toast.error("Erro ao tentar realizar o Check-Out!");
-            }
-        });
+    const handleEdit = (item) => {
+      if (userType !== "admin") {
+        return toast.error("Não tem permissão para editar uma aula.");
+      }
+        setOnEdit(item);
     };
 
     const handleDeleteClick = (id) => {
       if (userType !== "admin") {
-        return toast.error("Não tem permissão para excluir uma frequência.");
+        return toast.error("Não tem permissão para excluir uma aula.");
       }
-
-      setConfirmDelete(true);
-      setDeleteId(id);
-    };
+        setConfirmDelete(true);
+        setDeleteId(id);
+      };
 
     const handleDeleteConfirm = async () => {
-      await axios
-        .delete(URL + deleteId)
-        .then(({ data }) => {
-          const newArray = frequencia.filter((frequencia) => frequencia.id !== deleteId);
-          setFrequencia(newArray);
-          toast.success(data);
-        })
-        .catch(({ data }) => toast.error(data));
-  
-      setOnEdit(null);
-      setConfirmDelete(false);
-      setDeleteId(null);
+        await axios
+          .delete(URL + deleteId)
+          .then(({ data }) => {
+            const newArray = aula.filter((aula) => aula.id !== deleteId);
+            setAula(newArray);
+            toast.success(data);
+          })
+          .catch(({ data }) => toast.error(data));
+    
+        setOnEdit(null);
+        setConfirmDelete(false);
+        setDeleteId(null);
     };
 
     const handleDeleteCancel = () => {
-      setConfirmDelete(false);
-      setDeleteId(null);
-    };
-
-    const formatarData = (data) => {
-      const dataObj = new Date(data).toLocaleString('pt-Br');
-      return dataObj;
-    }
-
-    const filteredFrequencia = userType === "aluno" ? frequencia.filter((item) => item.cpf === user.aluno.cpf) : frequencia;
+        setConfirmDelete(false);
+        setDeleteId(null);
+      };
 
     return (
       <>
@@ -136,26 +120,26 @@ const Grid = ({ frequencia, setFrequencia, setOnEdit, user, userType }) => {
             <Thead>
                 <Tr>
                     <Th>Id</Th>
-                    <Th>Nome</Th>
-                    <Th>CPF</Th>
-                    <Th>Data Check-In</Th>
-                    <Th>Data Check-Out</Th>
+                    <Th>Modalidade</Th>
+                    <Th>Dias</Th>
+                    <Th>Descrição</Th>
+                    <Th>Local</Th>
+                    <Th>Professor</Th>
                     <Th></Th>
                     <Th></Th>
                 </Tr>
             </Thead>
             <Tbody>
-                {filteredFrequencia.map((item, i) => (
+                {aula.map((item, i) => (
                     <Tr key={i}>
                         <Td>{item.id}</Td>
-                        <Td>{item.nome_aluno}</Td>
-                        <Td>{item.cpf}</Td>
-                        <Td>{formatarData(item.dataInicio)}</Td>
-                        <Td>
-                            {item.dataFim === null ? "Pendente" : formatarData(item.dataFim)}
-                        </Td>
+                        <Td>{item.modalidade}</Td>
+                        <Td>{item.dias}</Td>
+                        <Td>{item.descricao}</Td>
+                        <Td>{item.local}</Td>
+                        <Td>{item.professor_nome}</Td>
                         <Td alignCenter width="5%">
-                            <FaCheckCircle onClick={() => handleCheckOut(item.id)} />
+                            <FaEdit onClick={() => handleEdit(item)} />
                         </Td>
                         <Td alignCenter width="5%">
                             <FaTrash onClick={() => handleDeleteClick(item.id)} />

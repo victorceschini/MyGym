@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const URL = "http://localhost:8800/aluno";
+const URL = "http://localhost:8800/professor";
 
 const Table = styled.table`
   width: 150%;
@@ -74,7 +74,7 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
   );
 };
 
-const Grid = ({ aluno, setAluno, setOnEdit, user, userType }) => {
+const Grid = ({ professor, setProfessor, setOnEdit, user, userType }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
@@ -84,7 +84,7 @@ const Grid = ({ aluno, setAluno, setOnEdit, user, userType }) => {
 
   const handleDeleteClick = (id) => {
     if (userType !== "admin") {
-      return toast.error("Não tem permissão para excluir alunos.");
+      return toast.error("Não tem permissão para excluir professores.");
     }
 
     setConfirmDelete(true);
@@ -95,8 +95,8 @@ const Grid = ({ aluno, setAluno, setOnEdit, user, userType }) => {
     await axios
       .delete(URL + deleteId)
       .then(({ data }) => {
-        const newArray = aluno.filter((aluno) => aluno.id !== deleteId);
-        setAluno(newArray);
+        const newArray = professor.filter((professor) => professor.id !== deleteId);
+        setProfessor(newArray);
         toast.success(data);
       })
       .catch(({ data }) => toast.error(data));
@@ -111,8 +111,6 @@ const Grid = ({ aluno, setAluno, setOnEdit, user, userType }) => {
     setDeleteId(null);
   };
 
-  // Filtrando apenas o aluno logado, se for do tipo "aluno"
-  const filteredAluno = userType === "aluno" ? aluno.filter((item) => item.id === user.aluno.id) : aluno;
   return (
     <>
       <ConfirmationModal
@@ -128,26 +126,24 @@ const Grid = ({ aluno, setAluno, setOnEdit, user, userType }) => {
             <Th>Email</Th>
             <Th onlyWeb>Telefone</Th>
             <Th>CPF</Th>
+            <Th>Formação</Th>
             <Th>Estado</Th>
             <Th>Cidade</Th>
-            <Th>Frequencia</Th>
-            <Th>Plano</Th>
             <Th></Th>
             <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
-          {filteredAluno.map((item, i) => (
+          {professor.map((item, i) => (
             <Tr key={i}>
               <Td>{item.id}</Td>
               <Td>{item.nome}</Td>
               <Td>{item.email}</Td>
               <Td>{item.telefone}</Td>
               <Td>{item.cpf}</Td>
+              <Td>{item.formacaoAcademica}</Td>
               <Td>{item.estado}</Td>
               <Td>{item.cidade}</Td>
-              <Td>{item.total_frequencias}</Td>
-              <Td>{item.planoAssinaturaAtivo === 1 ? "SIM" : "NÃO"}</Td>
               <Td alignCenter width="5%">
                 <FaEdit onClick={() => handleEdit(item)} />
               </Td>
