@@ -49,6 +49,7 @@ CREATE TABLE aluno (
   planoAssinaturaAtivo tinyint NOT NULL DEFAULT '0',
   plano_de_assinatura_id int DEFAULT NULL,
   administrador_id int NOT NULL,
+  senha varchar(45) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY cpf_UNIQUE (cpf),
   KEY fk_aluno_plano_de_assinatura1_idx (plano_de_assinatura_id),
@@ -57,7 +58,7 @@ CREATE TABLE aluno (
   CONSTRAINT fk_aluno_administrador1 FOREIGN KEY (administrador_id) REFERENCES administrador (id),
   CONSTRAINT fk_aluno_endereco1 FOREIGN KEY (endereco_id) REFERENCES endereco (id),
   CONSTRAINT fk_aluno_plano_de_assinatura1 FOREIGN KEY (plano_de_assinatura_id) REFERENCES plano_de_assinatura (id)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +71,7 @@ DROP TABLE IF EXISTS aula;
 CREATE TABLE aula (
   id int NOT NULL AUTO_INCREMENT,
   modalidade varchar(45) NOT NULL,
-  dias datetime NOT NULL,
+  dias varchar(45) NOT NULL,
   descricao varchar(45) NOT NULL,
   `local` varchar(45) NOT NULL,
   administrador_id int NOT NULL,
@@ -80,7 +81,7 @@ CREATE TABLE aula (
   KEY fk_aula_professor1_idx (professor_id),
   CONSTRAINT fk_aula_administrador1 FOREIGN KEY (administrador_id) REFERENCES administrador (id),
   CONSTRAINT fk_aula_professor1 FOREIGN KEY (professor_id) REFERENCES professor (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +146,7 @@ CREATE TABLE endereco (
   bairro varchar(45) NOT NULL,
   estado varchar(45) NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,14 +200,14 @@ DROP TABLE IF EXISTS frequencia;
 CREATE TABLE frequencia (
   id int NOT NULL AUTO_INCREMENT,
   aluno_id int NOT NULL,
-  `dataInício` date DEFAULT NULL,
-  checkin tinyint NOT NULL,
-  checkout tinyint NOT NULL,
-  dataFim date NOT NULL,
+  dataInicio datetime NOT NULL,
+  checkIn tinyint NOT NULL,
+  checkOut tinyint NOT NULL,
+  dataFim datetime DEFAULT NULL,
   PRIMARY KEY (id),
   KEY `fk_Frequência_Aluno_idx` (aluno_id),
   CONSTRAINT `fk_Frequência_Aluno` FOREIGN KEY (aluno_id) REFERENCES aluno (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,7 +223,7 @@ CREATE TABLE plano_de_assinatura (
   valor decimal(15,2) NOT NULL,
   descricao varchar(255) NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,10 +241,12 @@ CREATE TABLE professor (
   endereco_id int NOT NULL,
   email varchar(45) NOT NULL,
   formacaoAcademica varchar(45) NOT NULL,
+  senha varchar(45) NOT NULL,
   PRIMARY KEY (id),
+  UNIQUE KEY cpf_UNIQUE (cpf),
   KEY fk_professor_endereco1_idx (endereco_id),
   CONSTRAINT fk_professor_endereco1 FOREIGN KEY (endereco_id) REFERENCES endereco (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,4 +298,4 @@ CREATE TABLE rotina_tem_exercicio (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-05 18:18:15
+-- Dump completed on 2024-04-08 11:53:55
