@@ -109,6 +109,11 @@ const HomeAluno = ({ handleNavigation }) => {
                             Avaliacao
                         </Button>
                     </ButtonGroup>
+                    <ButtonGroup>
+                    <Button onClick={() => handleNavigation("Rotina")}>
+                            Rotina
+                    </Button>
+                    </ButtonGroup>
                 </ContentContainer>
             </Container>
         </>

@@ -8,6 +8,7 @@ export const Authenticator = (req, res) => {
 
     // Verifica se é um administrador
     db.query(adminQuery, [username, password], (err, adminResults) => {
+
         if (err) {
             return res.status(500).json({ message: "Erro no servidor" });
         }

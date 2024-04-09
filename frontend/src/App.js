@@ -8,6 +8,7 @@ import Aula from "./components/Aula.js";
 import Professor from "./components/Professor.js";
 import Avaliacao from "./components/Avaliacao.js";
 import HomeAluno from "./components/Home/HomeAluno.js";
+import Rotina from "./components/Rotina.js";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -87,6 +88,13 @@ function App() {
             )}
             {currentPage === "Avaliacao" && (
                 <Avaliacao
+                    handleNavigation={handleNavigation}
+                    user={user}
+                    userType={userType}
+                />
+            )}
+            {currentPage === "Rotina" && (
+                <Rotina
                     handleNavigation={handleNavigation}
                     user={user}
                     userType={userType}

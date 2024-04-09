@@ -1,8 +1,52 @@
 import axios from "axios";
 import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
 import { toast } from "react-toastify";
 
 const URL = "http://localhost:8800/rotina";
+
+const FormContainer = styled.form`
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 5px #ccc;
+  border-radius: 5px;
+`;
+
+
+const InputArea = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Input = styled.input`
+  width: 120px;
+  padding: 0 10px;
+  margin-left: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  height: 40px;
+`;
+
+const Label = styled.label`
+  margin-left: 10px;
+`;
+
+const Button = styled.button`
+  padding: 10px;
+  margin: auto;
+  margin-right: 160px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: #e8491d;
+  color: white;
+  height: 42px;
+`;
 
 const Form = ({ getRotina, onEdit, setOnEdit, user, userType }) => {
     const ref = useRef();
@@ -11,17 +55,17 @@ const Form = ({ getRotina, onEdit, setOnEdit, user, userType }) => {
       if (onEdit) {
         const rotina = ref.current;
 
-        rotina.descricao.value = onEdit.nome;
+        rotina.descricao.value = onEdit.descricao;
         rotina.data.value = onEdit.data;
         rotina.cpf_aluno.value = onEdit.cpf_aluno;
-        rotina.cpf_professor.value = onEdit.cpf_aluno;
+        rotina.cpf_professor.value = onEdit.cpf_professor;
       }
     }, [onEdit]);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
 
-      const professor = ref.current
+      const rotina = ref.current
 
       if (
         !rotina.descricao.value ||
@@ -37,7 +81,7 @@ const Form = ({ getRotina, onEdit, setOnEdit, user, userType }) => {
           .put(URL + onEdit.id, {
             descricao: rotina.descricao.value,
             data: rotina.data.value,
-            ativo: rotina.ativo.value,
+            ativo: true,
             cpf_aluno: rotina.cpf_aluno.value,
             cpf_professor: rotina.cpf_professor.value,
           })
@@ -58,7 +102,7 @@ const Form = ({ getRotina, onEdit, setOnEdit, user, userType }) => {
           .post(URL, {
             descricao: rotina.descricao.value,
             data: rotina.data.value,
-            ativo: rotina.ativo.value,
+            ativo: true,
             cpf_aluno: rotina.cpf_aluno.value,
             cpf_professor: rotina.cpf_professor.value,
           })
@@ -74,12 +118,11 @@ const Form = ({ getRotina, onEdit, setOnEdit, user, userType }) => {
 
       rotina.descricao.value = "";
       rotina.data.value = "";
-      rotina.ativo.value = true;
       rotina.cpf_aluno.value = "";
       rotina.cpf_professor.value = "";
 
       setOnEdit(null);
-      getProfessor();
+      getRotina();
     };
 
     return (

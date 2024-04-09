@@ -1,9 +1,67 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FaTrash, FaEdit } from "react-icons/fa";
+import styled from "styled-components";
 import { toast } from "react-toastify";
 
 const URL = "http://localhost:8800/rotina";
+
+const Table = styled.table`
+  width: 150%;
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 5px #ccc;
+  border-radius: 5px;
+  word-break: break-all;
+  table-layout: fixed;
+  overflow-x: auto;
+`;
+
+export const Thead = styled.thead``;
+
+export const Tbody = styled.tbody``;
+
+export const Tr = styled.tr``;
+
+export const Th = styled.th`
+  text-align: center;
+  border-bottom: inset;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  @media (max-width: 500px) {
+    ${(props) => props.onlyWeb && "display: none"}
+  }
+`;
+
+export const Td = styled.td`
+  padding-top: 15px;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: ${(props) => (props.width ? props.width : "auto")};
+  min-width: 100px;
+
+  @media (max-width: 500px) {
+    ${(props) => props.onlyWeb && "display: none"}
+  }
+`;
+
+const Button = styled.button`
+  padding: 10px;
+  margin: auto;
+  margin-top: 10px;
+  margin-left: 55px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background-color: #e8491d;
+  color: white;
+  height: 42px;
+`;
+
 
 const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
   if (!isOpen) return null;
@@ -39,7 +97,7 @@ const Grid = ({ rotina, setRotina, setOnEdit, user, userType }) => {
       .delete(URL + deleteId)
       .then(({ data }) => {
         const newArray = rotina.filter((rotina) => rotina.id !== deleteId);
-        setrotina(newArray);
+        setRotina(newArray);
         toast.success(data);
       })
       .catch(({ data }) => toast.error(data));
