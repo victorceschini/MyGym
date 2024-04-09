@@ -74,19 +74,11 @@ const Grid = ({ avaliacao, setAvaliacao, setOnEdit, user, userType }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
-    const handleCheckOut = async (id) => {
-        await axios
-            .put(`${URL}/${id}`, {
-                id: id,
-            })
-            .then(({ data }) => toast.success(data))
-            .catch((error) => {
-                if (error.response.status === 400) {
-                    toast.error(error.response.data.error);
-                } else {
-                    toast.error("Erro ao tentar realizar o Check-Out!");
-                }
-            });
+    const handleEdit = (item) => {
+        if (userType !== "admin") {
+            return toast.error("Não tem permissão para editar um plano.");
+        }
+        setOnEdit(item);
     };
 
     const handleDeleteClick = (id) => {
@@ -168,7 +160,7 @@ const Grid = ({ avaliacao, setAvaliacao, setOnEdit, user, userType }) => {
                             </Td>
                             <Td alignCenter width="5%">
                                 <FaCheckCircle
-                                    onClick={() => handleCheckOut(item.id)}
+                                    onClick={() => handleEdit(item.id)}
                                 />
                             </Td>
                             <Td alignCenter width="5%">
