@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { FaTrash, FaCheckCircle } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const URL = "http://localhost:8800/avaliacao";
@@ -16,6 +16,8 @@ const Table = styled.table`
     word-break: break-all;
     table-layout: fixed;
     overflow-x: auto;
+    padding-left: 10px;
+    padding-right: 10px;
 `;
 
 const Thead = styled.thead``;
@@ -76,7 +78,7 @@ const Grid = ({ avaliacao, setAvaliacao, setOnEdit, user, userType }) => {
 
     const handleEdit = (item) => {
         if (userType !== "admin") {
-            return toast.error("Não tem permissão para editar um plano.");
+            return toast.error("Não tem permissão para editar uma avaliacao.");
         }
         setOnEdit(item);
     };
@@ -92,10 +94,10 @@ const Grid = ({ avaliacao, setAvaliacao, setOnEdit, user, userType }) => {
 
     const handleDeleteConfirm = async () => {
         await axios
-            .delete(`${URL}/${deleteId}`)
+            .delete(URL + deleteId)
             .then(({ data }) => {
                 const newArray = avaliacao.filter(
-                    (item) => item.id !== deleteId
+                    (avaliacao) => avaliacao.id !== deleteId
                 );
                 setAvaliacao(newArray);
                 toast.success(data);
@@ -119,7 +121,7 @@ const Grid = ({ avaliacao, setAvaliacao, setOnEdit, user, userType }) => {
 
     const filteredAvaliacao =
         userType === "aluno"
-            ? avaliacao.filter((item) => item.cpf === user.aluno.cpf)
+            ? avaliacao.filter((item) => item.id === user.aluno.id)
             : avaliacao;
 
     return (
@@ -150,18 +152,19 @@ const Grid = ({ avaliacao, setAvaliacao, setOnEdit, user, userType }) => {
                     {filteredAvaliacao.map((item, i) => (
                         <Tr key={i}>
                             <Td>{item.id}</Td>
-                            <Td>{item.nome_aluno}</Td>
-                            <Td>{item.cpf}</Td>
+                            <Td>{item.aluno_id}</Td>
+                            <Td>{item.quadril}</Td>
+                            <Td>{item.abdomen}</Td>
+                            <Td>{item.coxa}</Td>
+                            <Td>{item.panturilha}</Td>
+                            <Td>{item.biceps}</Td>
+                            <Td>{item.antebraco}</Td>
+                            <Td>{item.altura}</Td>
+                            <Td>{item.massa}</Td>
                             <Td>{formatarData(item.dataInicio)}</Td>
-                            <Td>
-                                {item.dataFim === null
-                                    ? "Pendente"
-                                    : formatarData(item.dataFim)}
-                            </Td>
+                            <Td>{item.professor_id}</Td>
                             <Td alignCenter width="5%">
-                                <FaCheckCircle
-                                    onClick={() => handleEdit(item.id)}
-                                />
+                                <FaEdit onClick={() => handleEdit(item)} />
                             </Td>
                             <Td alignCenter width="5%">
                                 <FaTrash
