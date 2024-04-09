@@ -7,6 +7,7 @@ import aulaRoutes from "./routes/aula.js";
 import professorRoutes from "./routes/professor.js";
 import avaliacaoRoutes from "./routes/avaliacao.js";
 import equipamentoRoutes from "./routes/equipamento.js";
+import rotinaRoutes from "./routes/rotina.js";
 
 import cors from "cors";
 
@@ -23,5 +24,6 @@ app.use(aulaRoutes);
 app.use(professorRoutes);
 app.use(avaliacaoRoutes);
 app.use(equipamentoRoutes);
+app.use(rotinaRoutes);
 
 app.listen(8800);
