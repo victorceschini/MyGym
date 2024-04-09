@@ -1,11 +1,13 @@
 import express from 'express';
-import { getRotina, addRotina, updateRotina, deleteRotina } from "../controllers/rotina.js";
+import { getRotina, addRotina, updateRotina, deleteRotina, getRotinas } from "../controllers/rotina.js";
 
 const router = express.Router();
 
 router.get("/rotina", getRotina);
 
 router.post("/rotina", addRotina);
+
+router.get("/rotinas", getRotinas);
 
 router.put("/rotina:id", updateRotina);
 

@@ -11,6 +11,16 @@ export const getRotina = async (_req, res) => {
     }
 };
 
+export const getRotinas = async (req, res) => {
+    try {
+        const {cpf_aluno, cpf_professor} = req.body;
+        const rotinas = await rotina.getRotinas(cpf_aluno, cpf_professor);
+        return res.status(200).json(rotinas);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
 export const addRotina = async (req, res) => {
     try {
         const { descricao, data, ativo,  cpf_aluno,  cpf_professor } = req.body;

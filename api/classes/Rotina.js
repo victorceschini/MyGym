@@ -23,6 +23,24 @@ export class Rotina {
         });
     }
 
+    static async getRotinas(cpf_aluno, cpf_professor) {
+        return new Promise((resolve, reject) => {
+            const q = 
+                `SELECT rotina_de_exercicios.*, 
+                aluno.nome, aluno.email, aluno.telefone, aluno.cpf,
+                professor.nome, professor.email, professor.telefone, professor.cpf, professor.formacao
+                    FROM rotina_de_exercicios 
+                    INNER JOIN aluno ON rotina_de_exercicios.aluno_id=aluno.id 
+                    INNER JOIN professor ON rotina_de_exercicios.professor_id=professor.id
+                    WHERE aluno.cpf = ? OR professor.cpf = ?`;
+    
+            db.query(q,[cpf_aluno, cpf_professor], (err, data) => {
+                if (err) return reject(err);
+                resolve(data);
+            });
+        });
+    }
+
     static async getAllRotina() {
         return new Promise((resolve, reject) => {
             const q = 
