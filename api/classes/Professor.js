@@ -12,10 +12,10 @@ export class Professor {
         this.endereco_id = endereco_id;
     }
 
-    static async getObjectProfessor(id) {
+    static async getObjectProfessor(cpf, id) {
         return new Promise((resolve, reject) => {
-            const query = "SELECT * FROM professor WHERE id = ?";
-            db.query(query, [id], (err, results) => {
+            const query = "SELECT * FROM professor WHERE cpf = ? OR id = ?";
+            db.query(query, [cpf, id], (err, results) => {
                 if (err) return reject(err);
                 if (results.length === 0) return resolve(null);
                 const professorData = results[0];

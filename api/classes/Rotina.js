@@ -1,23 +1,24 @@
 import { db } from "../db.js";
 
 export class Rotina {
-    constructor(id, descricao, data, ativo, exercicio_id) {
+    constructor(id, aluno_id, professor_id, descricao, data, ativo) {
         this.id = id;
+        this.aluno_id = aluno_id;
+        this.professor_id = professor_id;
         this.descricao = descricao;
         this.data = data;
         this.ativo = ativo;
-        this.exercicio_id = exercicio_id;
     }
 
     static async getObjectRotina(id) {
         return new Promise((resolve, reject) => {
-            const query = "SELECT * FROM rotina WHERE id = ?";
+            const query = "SELECT * FROM rotina_de_exercicios WHERE id = ?";
             db.query(query, [id], (err, results) => {
                 if (err) return reject(err);
                 if (results.length === 0) return resolve(null);
                 const RotinaData = results[0];
-                resolve(new Rotina(RotinaData.id, RotinaData.descricao, RotinaData.data,
-                                      RotinaData.ativo, RotinaData.exercicio_id));
+                resolve(new Rotina(RotinaData.id, RotinaData.aluno_id, RotinaData.professor_id, RotinaData.descricao, RotinaData.data, 
+                                      RotinaData.ativo));
             });
         });
     }
@@ -25,8 +26,12 @@ export class Rotina {
     static async getAllRotina() {
         return new Promise((resolve, reject) => {
             const q = 
-                `SELECT rotina.*, exercicio.nome, exercicio.series, exercicio.repeticoes, exercicio.intervalo 
-                FROM rotina INNER JOIN exercicio ON rotina.exercicio_id=exercicio.id`;
+                `SELECT rotina_de_exercicios.*, 
+                aluno.nome, aluno.email, aluno.telefone, aluno.cpf,
+                professor.nome, professor.email, professor.telefone, professor.cpf, professor.formacao
+                    FROM rotina_de_exercicios 
+                    INNER JOIN aluno ON rotina_de_exercicios.aluno_id=aluno.id 
+                    INNER JOIN professor ON rotina_de_exercicios.professor_id=professor.id`;
     
             db.query(q, (err, data) => {
                 if (err) return reject(err);
@@ -38,9 +43,9 @@ export class Rotina {
 
     async save() {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO rotina ( `descricao`, `data`, `ativo`, `exercicio_id`) VALUES (?, ?, ?, ?)";
+            const query = "INSERT INTO rotina_de_exericios ( `aluno_id`, `professor_id`, `descricao`, `data`, `ativo`, `exercicio_id`) VALUES (?, ?, ?, ?, ?, ?)";
 
-            const values = [ this.descricao, this.data, this.ativo, this.exercicio_id];
+            const values = [ this.aluno_id, this.professor_id, this.descricao, this.data, this.ativo, this.exercicio_id];
             db.query(query, values, (err, results) => {
                 if (err) return reject(err);
                 this.id = results.insertId;
@@ -52,9 +57,9 @@ export class Rotina {
     async update(id) {
         return new Promise((resolve, reject) => {
             const query = 
-                "UPDATE rotina SET `descricao` = ?, `data` = ?, `ativo` = ?, `exercicio_id` = ? WHERE `id` = ?";
+                "UPDATE rotina_de_exercicios SET `aluno_id` = ?, `professor_id` = ?, `descricao` = ?, `data` = ?, `ativo` = ?, `exercicio_id` = ? WHERE `id` = ?";
 
-            const values = [ this.descricao, this.data, this.ativo, this.exercicio_id, id];
+            const values = [ this.aluno_id, this.professor_id, this.descricao, this.data, this.ativo, this.exercicio_id, id];
             db.query(query, values, (err, results) => {
                 if (err) return reject(err);
                 resolve();
@@ -64,7 +69,7 @@ export class Rotina {
 
     async delete(id) {
         return new Promise((resolve, reject) => {
-            const query = "DELETE FROM rotina WHERE `id` = ?";
+            const query = "DELETE FROM rotina_de_exercicios WHERE `id` = ?";
             db.query(query, [id], (err, results) => {
                 if (err) return reject(err);
                 resolve();

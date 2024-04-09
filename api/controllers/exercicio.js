@@ -18,7 +18,7 @@ export const addExercicio = async (req, res) => {
         return res.status(200).json("Exercicio criado com sucesso!");
     } catch (err) {
         if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(400).json({ error: "CPF já registrado para outro exercicio." });
+            return res.status(400).json({ error: "Exercício já cadastrado" });
         }
         return res.status(500).json({ error: err.message });
     }
