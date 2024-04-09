@@ -8,6 +8,7 @@ import professorRoutes from "./routes/professor.js";
 import avaliacaoRoutes from "./routes/avaliacao.js";
 import equipamentoRoutes from "./routes/equipamento.js";
 import rotinaRoutes from "./routes/rotina.js";
+import exercicioRoutes from "./routes/exercicio.js";
 
 import cors from "cors";
 
@@ -25,5 +26,5 @@ app.use(professorRoutes);
 app.use(avaliacaoRoutes);
 app.use(equipamentoRoutes);
 app.use(rotinaRoutes);
-
+app.use(exercicioRoutes)
 app.listen(8800);

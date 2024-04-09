@@ -1,13 +1,13 @@
 import GlobalStyle from "../styles/global";
 import styled from "styled-components";
-import Form from "./rotinaLayout/Form.js";
-import Grid from "./rotinaLayout/Grid.js";
+import Form from "./exercicioLayout/Form.js";
+import Grid from "./exercicioLayout/Grid.js";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const URL = "http://localhost:8800/rotina";
+const URL = "http://localhost:8800/exercicio";
 
 const Container = styled.div`
   width: 100%;
@@ -33,22 +33,22 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Rotina({ handleNavigation, user, userType }){
-    const [rotina, setRotina] = useState([]);
+function Exercicio({ handleNavigation, user, userType }){
+    const [exercicio, setExercicio] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
   
-    const getRotina = async () => {
+    const getExercicio = async () => {
       try {
         const res = await axios.get(URL);
-        setRotina(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
+        setExercicio(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
       } catch (error) {
         toast.error(error);
       }
     };
   
     useEffect(() => {
-      getRotina();
-    }, [setRotina]);
+      getExercicio();
+    }, [setExercicio]);
 
     const handleReturn = async (e) => {
       e.preventDefault();
@@ -63,13 +63,13 @@ function Rotina({ handleNavigation, user, userType }){
     return (
       <>
         <Container>
-          <Title>ROTINAS</Title>
+          <Title>EXERCÍCIOS</Title>
           <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
             Retornar
           </ReturnButton>
           {userType !== "aluno" && (
-          <Form onEdit={onEdit} setOnEdit={setOnEdit} getRotina={getRotina} user={user} userType={userType} />)}
-          <Grid setOnEdit={setOnEdit} rotina={rotina} setRotina={setRotina} user={user} userType={userType} />
+          <Form onEdit={onEdit} setOnEdit={setOnEdit} getExercicio={getExercicio} user={user} userType={userType} />)}
+          <Grid setOnEdit={setOnEdit} exercicio={exercicio} setExercicio={setExercicio} user={user} userType={userType} />
           
         </Container>
         
@@ -79,4 +79,4 @@ function Rotina({ handleNavigation, user, userType }){
     );
   }
 
-  export default Rotina;
+  export default Exercicio;
