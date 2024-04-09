@@ -5,6 +5,7 @@ import planoRoutes from "./routes/plano.js";
 import frequenciaRoutes from "./routes/frequencia.js";
 import aulaRoutes from "./routes/aula.js";
 import professorRoutes from "./routes/professor.js";
+import avaliacaoRoutes from "./routes/avaliacao.js";
 
 import cors from "cors";
 
@@ -19,5 +20,6 @@ app.use(planoRoutes);
 app.use(frequenciaRoutes);
 app.use(aulaRoutes);
 app.use(professorRoutes);
+app.use(avaliacaoRoutes);
 
 app.listen(8800);

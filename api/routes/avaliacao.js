@@ -6,7 +6,7 @@ import {
     addAvaliacao,
     updateAvaliacao,
     deleteAvaliacao,
-} from "../controllers/avaliacao";
+} from "../controllers/avaliacao.js";
 
 const router = express.Router();
 
