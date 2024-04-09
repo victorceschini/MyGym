@@ -117,11 +117,47 @@ const Form = ({ getAvaliacao, onEdit, setOnEdit, user, userType }) => {
         return (
             <FormContainer ref={ref} onSubmit={handleSubmit}>
                 <InputArea>
-                    <Label>CPF</Label>
-                    <Input name="cpf" />
+                    <Label>Quadril</Label>
+                    <Input name="quadril" />
+                </InputArea>
+                <InputArea>
+                    <Label>abdomen</Label>
+                    <Input name="abdomen" />
+                </InputArea>
+                <InputArea>
+                    <Label>coxa</Label>
+                    <Input name="coxa" />
+                </InputArea>
+                <InputArea>
+                    <Label>panturilha</Label>
+                    <Input name="panturilha" />
+                </InputArea>
+                <InputArea>
+                    <Label>biceps</Label>
+                    <Input name="biceps" />
+                </InputArea>
+                <InputArea>
+                    <Label>antebraco</Label>
+                    <Input name="antebraco" />
+                </InputArea>
+                <InputArea>
+                    <Label>altura</Label>
+                    <Input name="altura" />
+                </InputArea>
+                <InputArea>
+                    <Label>massa</Label>
+                    <Input name="massa" />
+                </InputArea>
+                <InputArea>
+                    <Label>data</Label>
+                    <Input name="data" />
+                </InputArea>
+                <InputArea>
+                    <Label>imc</Label>
+                    <Input name="imc" />
                 </InputArea>
 
-                <Button type="submit">CHECK-IN</Button>
+                <Button type="submit">Enviar</Button>
             </FormContainer>
         );
     };
