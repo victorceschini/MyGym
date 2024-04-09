@@ -81,6 +81,7 @@ function App() {
                     userType={userType}
                 />
             )}
+            /*
             {currentPage === "Equipamento" && (
                 <Equipamento
                     handleNavigation={handleNavigation}
