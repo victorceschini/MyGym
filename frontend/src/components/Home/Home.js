@@ -111,6 +111,9 @@ const Home = ({ handleNavigation, handleReset }) => {
                         <Button onClick={() => handleNavigation("Avaliacao")}>
                             Avaliacao
                         </Button>
+                        <Button onClick={() => handleNavigation("Rotina")}>
+                            Rotina
+                        </Button>
                     </ButtonGroup>
                 </ContentContainer>
             </Container>
