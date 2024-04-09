@@ -3,8 +3,9 @@ import axios from "axios";
 import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Equipamento from "../Equipamento";
 
-const URL = "http://localhost:8800/aula";
+const URL = "http://localhost:8800/equipamento";
 
 const Table = styled.table`
     width: 100%;
@@ -70,20 +71,22 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
     );
 };
 
-const Grid = ({ aula, setAula, setOnEdit, user, userType }) => {
+const Grid = ({ equipamento, setEquipamento, setOnEdit, user, userType }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
     const handleEdit = (item) => {
         if (userType !== "admin") {
-            return toast.error("Não tem permissão para editar uma aula.");
+            return toast.error("Não tem permissão para editar um equipamento.");
         }
         setOnEdit(item);
     };
 
     const handleDeleteClick = (id) => {
         if (userType !== "admin") {
-            return toast.error("Não tem permissão para excluir uma aula.");
+            return toast.error(
+                "Não tem permissão para excluir um equipamento."
+            );
         }
         setConfirmDelete(true);
         setDeleteId(id);
@@ -93,8 +96,10 @@ const Grid = ({ aula, setAula, setOnEdit, user, userType }) => {
         await axios
             .delete(URL + deleteId)
             .then(({ data }) => {
-                const newArray = aula.filter((aula) => aula.id !== deleteId);
-                setAula(newArray);
+                const newArray = aula.filter(
+                    (equipamento) => Equipamento.id !== deleteId
+                );
+                setEquipamento(newArray);
                 toast.success(data);
             })
             .catch(({ data }) => toast.error(data));

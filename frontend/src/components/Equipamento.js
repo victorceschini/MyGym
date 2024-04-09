@@ -1,13 +1,13 @@
 import GlobalStyle from "../styles/global";
 import styled from "styled-components";
-import Form from "./avaliacaoLayout/Form";
-import Grid from "./avaliacaoLayout/Grid";
+import Form from "./aulaLayout/Form.js";
+import Grid from "./aulaLayout/Grid.js";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const URL = "http://localhost:8800/avaliacao";
+const URL = "http://localhost:8800/equipamento";
 
 const Container = styled.div`
     width: 100%;
@@ -33,24 +33,24 @@ const ReturnButton = styled.button`
 
 const Title = styled.h2``;
 
-function Avaliacao({ handleNavigation, user, userType }) {
-    const [avaliacao, setAvaliacao] = useState([]);
+function Equipamento({ handleNavigation, user, userType }) {
+    const [equipamento, setEquipamento] = useState([]);
     const [onEdit, setOnEdit] = useState(null);
 
-    const getAvaliacao = async () => {
+    const getEquipamento = async () => {
         try {
             const res = await axios.get(URL);
-            setAvaliacao(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
+            setEquipamento(res.data.sort((a, b) => (a.id > b.id ? 1 : -1)));
         } catch (error) {
-            toast.error(error.message);
+            toast.error(error);
         }
     };
 
     useEffect(() => {
-        getAvaliacao();
-    }, [setAvaliacao]);
+        getEquipamento();
+    }, [setEquipamento]);
 
-    const handleReturn = (e) => {
+    const handleReturn = async (e) => {
         e.preventDefault();
         if (userType === "admin") {
             handleNavigation("Home");
@@ -62,28 +62,32 @@ function Avaliacao({ handleNavigation, user, userType }) {
     return (
         <>
             <Container>
-                <Title>Avaliacao</Title>
-                <ReturnButton onClick={handleReturn}>Retornar</ReturnButton>
+                <Title>EQUIPAMENTOS</Title>
+                <ReturnButton type="button" onClick={(e) => handleReturn(e)}>
+                    Retornar
+                </ReturnButton>
                 {userType !== "aluno" && (
                     <Form
                         onEdit={onEdit}
                         setOnEdit={setOnEdit}
-                        getAvaliacao={getAvaliacao}
+                        getEquipamento={getEquipamento}
                         user={user}
                     />
                 )}
+
                 <Grid
                     setOnEdit={setOnEdit}
-                    avaliacao={avaliacao}
-                    setAvaliacao={setAvaliacao}
+                    equipamento={equipamento}
+                    setEquipamento={setEquipamento}
                     user={user}
                     userType={userType}
                 />
             </Container>
-            <ToastContainer autoClose={3000} position="bottom-left" />
+
+            <ToastContainer autoClose={3000} position={"bottom-left"} />
             <GlobalStyle />
         </>
     );
 }
 
-export default Avaliacao;
+export default Equipamento;

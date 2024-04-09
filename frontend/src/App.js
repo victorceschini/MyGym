@@ -9,6 +9,7 @@ import Professor from "./components/Professor.js";
 import Avaliacao from "./components/Avaliacao.js";
 import HomeAluno from "./components/Home/HomeAluno.js";
 import Rotina from "./components/Rotina.js";
+import Equipamento from "./components/Equipamento.js";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -74,6 +75,13 @@ function App() {
             )}
             {currentPage === "Aula" && (
                 <Aula
+                    handleNavigation={handleNavigation}
+                    user={user}
+                    userType={userType}
+                />
+            )}
+            {currentPage === "Equipamento" && (
+                <Equipamento
                     handleNavigation={handleNavigation}
                     user={user}
                     userType={userType}
