@@ -15,9 +15,9 @@ export class Exercicio {
             db.query(query, [id], (err, results) => {
                 if (err) return reject(err);
                 if (results.length === 0) return resolve(null);
-                const ExercicioData = results[0];
-                resolve(new Exercicio(ExercicioData.id, ExercicioData.nome, ExercicioData.series,
-                                      ExercicioData.repeticoes, ExercicioData.intervalo));
+                const exercicioData = results[0];
+                resolve(new Exercicio(exercicioData.id, exercicioData.nome, exercicioData.series,
+                                      exercicioData.repeticoes, exercicioData.intervalo));
             });
         });
     }
@@ -37,7 +37,7 @@ export class Exercicio {
 
     async save() {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO exercicio (`nome`, `series`, `repeticoes`, `intervalo`) VALUES (?, ?, ?, ?)";
+            const query = "INSERT INTO exercicio (`nome`, `series`, `repeticoes`, `intervalo_series`) VALUES (?, ?, ?, ?)";
 
             const values = [this.nome, this.series, this.repeticoes, this.intervalo];
             db.query(query, values, (err, results) => {
@@ -51,7 +51,7 @@ export class Exercicio {
     async update(id) {
         return new Promise((resolve, reject) => {
             const query = 
-                "UPDATE exercicio SET `nome` = ?, `series` = ?, `repeticoes` = ?, `intervalo` = ? WHERE `id` = ?";
+                "UPDATE exercicio SET `nome` = ?, `series` = ?, `repeticoes` = ?, `intervalo_series` = ? WHERE `id` = ?";
 
             const values = [this.nome, this.series, this.repeticoes, this.intervalo, id];
             db.query(query, values, (err, results) => {

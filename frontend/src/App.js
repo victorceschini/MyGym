@@ -10,6 +10,7 @@ import Avaliacao from "./components/Avaliacao.js";
 import HomeAluno from "./components/Home/HomeAluno.js";
 import Rotina from "./components/Rotina.js";
 import Equipamento from "./components/Equipamento.js";
+import Exercicio from "./components/Exercicio.js";
 
 function App() {
     const [user, setUser] = useState(null);
@@ -106,6 +107,12 @@ function App() {
                     handleNavigation={handleNavigation}
                     user={user}
                     userType={userType}
+                />
+            )}
+            {currentPage === "Exercicio" && (
+                <Exercicio
+                    handleNavigation={handleNavigation}
+                    handleReset={handleReset}
                 />
             )}
             {currentPage === "HomeAluno" && (

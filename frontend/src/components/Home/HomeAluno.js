@@ -97,22 +97,15 @@ const HomeAluno = ({ handleNavigation }) => {
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup>
-                        <Button
-                            onClick={() => handleNavigation("RotinaExercicio")}
-                        >
-                            Rotina
-                        </Button>
                         <Button onClick={() => handleNavigation("Aula")}>
                             Aulas
                         </Button>
                         <Button onClick={() => handleNavigation("Avaliacao")}>
                             Avaliacao
                         </Button>
-                    </ButtonGroup>
-                    <ButtonGroup>
-                    <Button onClick={() => handleNavigation("Rotina")}>
+                        <Button onClick={() => handleNavigation("Rotina")}>
                             Rotina
-                    </Button>
+                        </Button>
                     </ButtonGroup>
                 </ContentContainer>
             </Container>
