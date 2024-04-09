@@ -5,6 +5,7 @@ import planoRoutes from "./routes/plano.js";
 import frequenciaRoutes from "./routes/frequencia.js";
 import aulaRoutes from "./routes/aula.js";
 import professorRoutes from "./routes/professor.js";
+
 import cors from "cors";
 
 const app = express();
